@@ -1,6 +1,8 @@
 // app/page.tsx
 "use client";
+import { useState } from "react";
 import { useApp } from "@/lib/AppContext";
+import Toast from "@/components/Toast";
 import Sidebar from "@/components/Sidebar";
 import EditorPanel from "@/components/EditorPanel";
 import PreviewPanel from "@/components/PreviewPanel";
@@ -23,6 +25,8 @@ export default function Home() {
     setConverting,
   } = useApp();
 
+  const [toast, setToast] = useState<{ message: string; type: "error" | "success" } | null>(null);
+
   const handleConvert = async () => {
     setConverting(true);
     try {
@@ -37,13 +41,13 @@ export default function Home() {
       });
       const data = await res.json();
       if (data.error) {
-        alert("转换失败：" + data.error);
+        setToast({ message: "转换失败：" + data.error, type: "error" });
       } else {
         setScript(data.yaml, data.script);
         setEditorTab("script");
       }
     } catch (err) {
-      alert("请求失败：" + String(err));
+      setToast({ message: "请求失败：" + String(err), type: "error" });
     } finally {
       setConverting(false);
     }
@@ -81,6 +85,14 @@ export default function Home() {
         previewTab={previewTab}
         onTabChange={setPreviewTab}
       />
+
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 }
