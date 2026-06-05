@@ -83,4 +83,5 @@ export interface AppState {
   editorTab: "novel" | "script";
   previewTab: "yaml" | "fountain";
   converting: boolean;
+  activeNav: string;
 }
