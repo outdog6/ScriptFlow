@@ -74,6 +74,15 @@ export interface ScriptData {
   acts: Act[];
 }
 
+export interface Draft {
+  id: string;
+  title: string;
+  createdAt: string;
+  chapterCount: number;
+  yaml: string;
+  script: ScriptData;
+}
+
 export interface AppState {
   mode: "upload" | "editing";
   chapters: NovelChapter[];
@@ -84,4 +93,5 @@ export interface AppState {
   previewTab: "yaml" | "fountain";
   converting: boolean;
   activeNav: string;
+  drafts: Draft[];
 }

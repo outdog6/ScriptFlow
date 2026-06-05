@@ -6,6 +6,7 @@ import Toast from "@/components/Toast";
 import Sidebar from "@/components/Sidebar";
 import EditorPanel from "@/components/EditorPanel";
 import PreviewPanel from "@/components/PreviewPanel";
+import DraftsView from "@/components/DraftsView";
 
 export default function Home() {
   const {
@@ -17,12 +18,18 @@ export default function Home() {
     editorTab,
     previewTab,
     converting,
+    drafts,
+    activeNav,
     loadText,
     setEditorTab,
     setPreviewTab,
     setActiveChapter,
     setScript,
+    autoSaveDraft,
+    removeDraft,
+    restoreDraft,
     setConverting,
+    setActiveNav,
   } = useApp();
 
   const [toast, setToast] = useState<{ message: string; type: "error" | "success" } | null>(null);
@@ -45,6 +52,8 @@ export default function Home() {
       } else {
         setScript(data.yaml, data.script);
         setEditorTab("script");
+        autoSaveDraft(data.script.meta.title, data.yaml, data.script);
+        setToast({ message: "剧本已自动保存到草稿", type: "success" });
       }
     } catch (err) {
       setToast({ message: "请求失败：" + String(err), type: "error" });
@@ -52,6 +61,8 @@ export default function Home() {
       setConverting(false);
     }
   };
+
+  const showMainWorkspace = activeNav === "project" || chapters.length > 0;
 
   return (
     <div className="flex h-screen bg-[#f5f5f7]">
@@ -61,30 +72,47 @@ export default function Home() {
         converting={converting}
         yaml={yaml}
         scriptTitle={script?.meta?.title || ""}
-        activeNav="project"
-        onNavigate={() => {}}
+        activeNav={activeNav}
+        onNavigate={setActiveNav}
         onSelectChapter={setActiveChapter}
       />
 
-      <EditorPanel
-        mode={mode}
-        chapters={chapters}
-        activeChapter={activeChapter}
-        script={script}
-        editorTab={editorTab}
-        converting={converting}
-        onTextLoaded={loadText}
-        onTabChange={setEditorTab}
-        onConvert={handleConvert}
-        onSelectChapter={setActiveChapter}
-      />
+      {activeNav === "drafts" || activeNav === "exports" ? (
+        <div className="flex flex-col flex-1 min-w-0">
+          <div className="glass flex items-center px-6 py-3 border-b border-[rgba(0,0,0,0.06)]">
+            <h2 className="text-[15px] font-semibold text-[#1d1d1f]">
+              {activeNav === "drafts" ? "草稿" : "导出记录"}
+            </h2>
+          </div>
+          <DraftsView
+            drafts={drafts}
+            onRestore={restoreDraft}
+            onDelete={removeDraft}
+          />
+        </div>
+      ) : (
+        <>
+          <EditorPanel
+            mode={mode}
+            chapters={chapters}
+            activeChapter={activeChapter}
+            script={script}
+            editorTab={editorTab}
+            converting={converting}
+            onTextLoaded={loadText}
+            onTabChange={setEditorTab}
+            onConvert={handleConvert}
+            onSelectChapter={setActiveChapter}
+          />
 
-      <PreviewPanel
-        yaml={yaml}
-        script={script}
-        previewTab={previewTab}
-        onTabChange={setPreviewTab}
-      />
+          <PreviewPanel
+            yaml={yaml}
+            script={script}
+            previewTab={previewTab}
+            onTabChange={setPreviewTab}
+          />
+        </>
+      )}
 
       {toast && (
         <Toast
