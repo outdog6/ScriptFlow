@@ -87,6 +87,7 @@ export default function SilkBookmarks({ activeNav, onNavigate, visible }: Props)
                 height={isActive ? 120 : 70}
                 viewBox={isActive ? "0 0 24 120" : "0 0 24 70"}
                 className="transition-all duration-300 block"
+                style={{ pointerEvents: "none" }}
               >
                 <defs>
                   {/* Silk sheen gradient */}

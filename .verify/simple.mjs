@@ -2,7 +2,7 @@ import { chromium } from "playwright";
 import { join } from "path";
 
 const DIR = join(import.meta.dirname, "screenshots");
-const URL = "http://localhost:3004";
+const URL = "http://localhost:3005";
 
 const browser = await chromium.launch({ headless: true, args: ["--no-sandbox"] });
 const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });

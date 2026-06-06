@@ -1,21 +1,43 @@
 // components/cinematic/DustParticles.tsx
 "use client";
+import { useState, useEffect } from "react";
 
 interface Props {
   visible: boolean;
 }
 
-const PARTICLES = Array.from({ length: 32 }, (_, i) => ({
-  id: i,
-  left: 15 + Math.random() * 65,
-  top: 10 + Math.random() * 75,
-  size: 1.5 + Math.random() * 3,
-  delay: Math.random() * 4,
-  duration: 5 + Math.random() * 10,
-  drift: (Math.random() - 0.5) * 60,
-}));
+interface Particle {
+  id: number;
+  left: number;
+  top: number;
+  size: number;
+  delay: number;
+  duration: number;
+  drift: number;
+}
+
+function generateParticles(): Particle[] {
+  return Array.from({ length: 32 }, (_, i) => ({
+    id: i,
+    left: 15 + Math.random() * 65,
+    top: 10 + Math.random() * 75,
+    size: 1.5 + Math.random() * 3,
+    delay: Math.random() * 4,
+    duration: 5 + Math.random() * 10,
+    drift: (Math.random() - 0.5) * 60,
+  }));
+}
 
 export default function DustParticles({ visible }: Props) {
+  // Generate particles only on client to avoid SSR mismatch
+  const [particles, setParticles] = useState<Particle[]>([]);
+
+  useEffect(() => {
+    setParticles(generateParticles());
+  }, []);
+
+  if (particles.length === 0) return null;
+
   return (
     <div
       className="pointer-events-none fixed inset-0 z-35"
@@ -33,7 +55,7 @@ export default function DustParticles({ visible }: Props) {
           height: 650,
         }}
       >
-        {PARTICLES.map((p) => (
+        {particles.map((p) => (
           <div
             key={p.id}
             className="absolute rounded-full"
@@ -53,7 +75,6 @@ export default function DustParticles({ visible }: Props) {
                 : "none",
               // @ts-expect-error CSS custom properties
               "--drift": `${p.drift}px`,
-              "--size": `${p.size}px`,
             }}
           />
         ))}
