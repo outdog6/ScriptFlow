@@ -1,3 +1,4 @@
+import { memo } from "react";
 // components/ActBlock.tsx
 import { Act } from "@/lib/types";
 import SceneCard from "./SceneCard";
@@ -7,7 +8,7 @@ interface Props {
   characterName: (id: string) => string;
 }
 
-export default function ActBlock({ act, characterName }: Props) {
+function ActBlock({ act, characterName }: Props) {
   return (
     <div className="mb-8">
       <div className="mb-1">
@@ -30,3 +31,4 @@ export default function ActBlock({ act, characterName }: Props) {
     </div>
   );
 }
+export default memo(ActBlock);

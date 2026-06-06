@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Beat, ActionBeat, DialogueBeat } from "@/lib/types";
 
 interface Props {
@@ -5,7 +6,7 @@ interface Props {
   characterName?: (id: string) => string;
 }
 
-export default function BeatLine({ beat, characterName }: Props) {
+function BeatLine({ beat, characterName }: Props) {
   if (beat.type === "action") {
     return (
       <p className="py-1 text-sm text-[var(--apple-secondary)] italic leading-relaxed">
@@ -34,3 +35,4 @@ export default function BeatLine({ beat, characterName }: Props) {
     </div>
   );
 }
+export default memo(BeatLine);

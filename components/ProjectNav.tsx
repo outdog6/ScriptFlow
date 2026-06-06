@@ -1,3 +1,4 @@
+import { memo } from "react";
 // components/ProjectNav.tsx
 import { BookOpen, FileText, Download } from "lucide-react";
 
@@ -12,7 +13,7 @@ const items = [
   { id: "exports", label: "导出记录", icon: <Download className="w-[18px]" strokeWidth={1.5} /> },
 ];
 
-export default function ProjectNav({ activeItem, onNavigate }: Props) {
+function ProjectNav({ activeItem, onNavigate }: Props) {
   return (
     <div className="space-y-0.5 px-2">
       {items.map((item) => (
@@ -32,3 +33,4 @@ export default function ProjectNav({ activeItem, onNavigate }: Props) {
     </div>
   );
 }
+export default memo(ProjectNav);

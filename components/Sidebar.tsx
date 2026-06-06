@@ -1,3 +1,4 @@
+import { memo } from "react";
 // components/Sidebar.tsx
 import { NovelChapter } from "@/lib/types";
 import { Sun, Moon } from "lucide-react";
@@ -18,7 +19,7 @@ interface Props {
   onSelectChapter: (id: number) => void;
 }
 
-export default function Sidebar({
+function Sidebar({
   chapters,
   activeChapter,
   converting,
@@ -71,3 +72,4 @@ export default function Sidebar({
     </div>
   );
 }
+export default memo(Sidebar);

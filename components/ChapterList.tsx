@@ -1,3 +1,4 @@
+import { memo } from "react";
 // components/ChapterList.tsx
 import { NovelChapter } from "@/lib/types";
 
@@ -8,7 +9,7 @@ interface Props {
   onSelectChapter: (id: number) => void;
 }
 
-export default function ChapterList({ chapters, activeChapter, converting, onSelectChapter }: Props) {
+function ChapterList({ chapters, activeChapter, converting, onSelectChapter }: Props) {
   return (
     <div className="flex-1 overflow-y-auto min-h-0">
       <p className="px-5 pt-4 pb-2 text-[11px] font-semibold text-[var(--apple-secondary)] uppercase tracking-wider">
@@ -41,3 +42,4 @@ export default function ChapterList({ chapters, activeChapter, converting, onSel
     </div>
   );
 }
+export default memo(ChapterList);

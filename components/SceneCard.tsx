@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Scene } from "@/lib/types";
 import BeatLine from "./BeatLine";
 
@@ -6,7 +7,7 @@ interface Props {
   characterName: (id: string) => string;
 }
 
-export default function SceneCard({ scene, characterName }: Props) {
+function SceneCard({ scene, characterName }: Props) {
   return (
     <div className="bg-[var(--apple-white)] rounded-2xl p-6 mb-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300">
       <div className="flex items-center gap-3 mb-4">
@@ -49,3 +50,4 @@ export default function SceneCard({ scene, characterName }: Props) {
     </div>
   );
 }
+export default memo(SceneCard);
