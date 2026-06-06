@@ -217,7 +217,7 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
   if (!hasContent) return null;
 
   return (
-    <div className="relative flex items-end gap-4" onMouseLeave={() => setOpen(false)}>
+    <div className="relative flex items-end gap-4">
       {/* Format selector dropdown */}
       {open && (
         <div className="absolute bottom-full right-0 mb-3 bg-[#2a221a] border border-[rgba(255,255,255,0.08)] rounded-xl p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.6)] min-w-[140px] z-10">
