@@ -93,10 +93,17 @@ html[data-cinematic].dark {
   --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
-/* Book page — warm paper */
+/* Book page — warm paper, dark text for readability */
 .cine-page {
   background: var(--cine-book-page);
   color: var(--cine-page-text);
+  --apple-text: var(--cine-page-text);
+  --apple-white: var(--cine-book-page);
+  --apple-bg: #ede4d2;
+  --apple-secondary: var(--cine-page-secondary);
+  --apple-blue: var(--cine-accent);
+  --apple-blue-hover: #d48220;
+  --apple-border: rgba(139, 115, 85, 0.2);
 }
 
 .cine-page ::-webkit-scrollbar-thumb {
