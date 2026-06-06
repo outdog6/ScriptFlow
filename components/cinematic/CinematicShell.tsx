@@ -159,7 +159,7 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
   const [open, setOpen] = useState(false);
   const [writing, setWriting] = useState(false);
   const quillRef = useRef<HTMLDivElement>(null);
-  const inkDropRef = useRef<HTMLDivElement>(null);
+  const inkLineRef = useRef<SVGPathElement>(null);
 
   const hasContent = !!(yaml || script);
 
@@ -180,23 +180,27 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
 
     const tl = gsap.timeline({ onComplete: () => setWriting(false) });
 
-    // 1. Quill lifts from bottle
-    tl.to(quillRef.current, { y: -20, rotate: -15, duration: 0.3, ease: "power2.out" })
-      // 2. Dip into ink (tiny pause)
-      .to(quillRef.current, { y: -20, scaleX: 0.95, duration: 0.1 })
-      .to(quillRef.current, { scaleX: 1, duration: 0.1 })
-      // 3. Move to parchment
-      .to(quillRef.current, { x: 55, y: -25, rotate: -25, duration: 0.4, ease: "power2.inOut" })
-      // 4. Writing wiggle
-      .to(quillRef.current, { x: 60, y: -28, duration: 0.08 })
-      .to(quillRef.current, { x: 52, y: -24, duration: 0.08 })
-      .to(quillRef.current, { x: 58, y: -27, duration: 0.08 })
-      .to(quillRef.current, { x: 50, y: -23, duration: 0.08 })
-      // 5. Ink drop appears on parchment
+    // 1. Quill lifts from bottle + tilts
+    tl.to(quillRef.current, { y: -30, rotate: -10, duration: 0.25, ease: "power2.out" })
+      // 2. Dip — quick micro shake
+      .to(quillRef.current, { scaleX: 0.9, duration: 0.08 })
+      .to(quillRef.current, { scaleX: 1, duration: 0.08 })
+      // 3. Rise to top of parchment strip
+      .to(quillRef.current, { x: -20, y: -100, rotate: -20, duration: 0.45, ease: "power2.inOut" })
+      // 4. Draw wavy line down the strip
+      .to(quillRef.current, { x: -18, y: -85, duration: 0.15 })
+      .to(quillRef.current, { x: -22, y: -70, duration: 0.15 })
+      .to(quillRef.current, { x: -18, y: -55, duration: 0.15 })
+      .to(quillRef.current, { x: -22, y: -40, duration: 0.15 })
+      .to(quillRef.current, { x: -18, y: -25, duration: 0.15 })
+      // 5. Fade in the ink stroke on parchment
       .call(() => {
-        if (inkDropRef.current) inkDropRef.current.style.opacity = "1";
-      })
-      // 6. Trigger download
+        if (inkLineRef.current) {
+          inkLineRef.current.style.opacity = "1";
+          inkLineRef.current.style.strokeDashoffset = "0";
+        }
+      }, [0]) // start at beginning of this label
+      // 6. Download
       .call(() => {
         if (format === "yaml") {
           const fixed = yaml.replace(/title:\s*".*?"/, `title: "${scriptTitle}"`);
@@ -205,22 +209,25 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
           download(exportFountain(script), "fountain", "text/plain");
         }
       })
-      // 7. Return to bottle
-      .to({}, { duration: 0.3 })
+      // 7. Pause, then return
+      .to({}, { duration: 0.5 })
       .to(quillRef.current, { x: 0, y: 0, rotate: 0, duration: 0.5, ease: "power2.in" })
-      // 8. Hide ink drop
+      // 8. Fade out ink line
       .call(() => {
-        if (inkDropRef.current) inkDropRef.current.style.opacity = "0";
+        if (inkLineRef.current) {
+          inkLineRef.current.style.opacity = "0";
+          inkLineRef.current.style.strokeDashoffset = "100";
+        }
       });
   }, [writing, yaml, scriptTitle, script, download]);
 
   if (!hasContent) return null;
 
   return (
-    <div className="relative flex items-end gap-4">
+    <div className="relative">
       {/* Format selector dropdown */}
       {open && (
-        <div className="absolute bottom-full right-0 mb-3 bg-[#2a221a] border border-[rgba(255,255,255,0.08)] rounded-xl p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.6)] min-w-[140px] z-10">
+        <div className="absolute bottom-full right-0 mb-2 bg-[#2a221a] border border-[rgba(255,255,255,0.08)] rounded-xl p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.6)] min-w-[140px] z-10">
           <button
             onClick={() => triggerExport("yaml")}
             className="block w-full text-left px-3 py-2 text-[12px] text-[#c4b8a8] hover:bg-[rgba(255,255,255,0.06)] rounded-lg transition-colors"
@@ -238,37 +245,53 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
         </div>
       )}
 
-      {/* Parchment paper */}
+      {/* Long parchment strip — above the inkwell */}
       <div
-        className="relative w-16 h-20 rounded-sm flex-shrink-0"
+        className="relative mx-auto mb-1 w-6 rounded-sm"
         style={{
-          background: "linear-gradient(135deg, #f0e6c8 0%, #e8d8a8 40%, #f2e4c0 100%)",
-          boxShadow: "1px 2px 8px rgba(0,0,0,0.3), inset 0 0 30px rgba(180,150,100,0.1)",
-          border: "1px solid rgba(180,150,100,0.3)",
+          height: 88,
+          background: "linear-gradient(180deg, #f2e8cc 0%, #e8d8a8 50%, #f0e4c0 100%)",
+          boxShadow: "1px 2px 8px rgba(0,0,0,0.25), inset 0 0 20px rgba(180,150,100,0.1)",
+          border: "1px solid rgba(180,150,100,0.2)",
         }}
       >
-        {/* Parchment curl top-right */}
+        {/* Top tear / curl */}
         <div
-          className="absolute -top-1 -right-1 w-4 h-4"
+          className="absolute -top-1 left-0 right-0 h-2"
           style={{
-            background: "linear-gradient(135deg, #e0d0a0 0%, #f0e6c8 60%)",
-            borderRadius: "0 0 0 4px",
-            boxShadow: "-1px 1px 2px rgba(0,0,0,0.15)",
+            background: "linear-gradient(180deg, #ddd0a0, #f2e8cc)",
+            borderRadius: "1px 1px 0 0",
           }}
         />
-        {/* Ink drop on parchment */}
-        <div
-          ref={inkDropRef}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full transition-opacity duration-200"
-          style={{
-            background: "radial-gradient(circle, #0a0a14 60%, #1a1a2e 100%)",
-            opacity: 0,
-          }}
-        />
+
+        {/* Wavy ink stroke — hidden until animation */}
+        <svg
+          width="100%"
+          height="100%"
+          viewBox="0 0 24 88"
+          preserveAspectRatio="none"
+          className="absolute inset-0"
+          style={{ overflow: "visible" }}
+        >
+          <path
+            ref={inkLineRef}
+            d="M 12 4 Q 8 15 12 22 Q 16 30 12 38 Q 8 46 12 54 Q 16 62 12 70 Q 8 78 12 84"
+            stroke="#0a0a14"
+            strokeWidth="1.5"
+            fill="none"
+            strokeLinecap="round"
+            style={{
+              opacity: 0,
+              strokeDasharray: 100,
+              strokeDashoffset: 100,
+              transition: "stroke-dashoffset 1s ease-out, opacity 0.3s ease-out",
+            }}
+          />
+        </svg>
       </div>
 
       {/* Ink bottle + quill */}
-      <div className="relative flex-shrink-0 cursor-pointer" onClick={() => setOpen(!open)}>
+      <div className="relative cursor-pointer mx-auto w-fit" onClick={() => setOpen(!open)}>
         {/* Ink bottle */}
         <div
           className="w-12 h-14 rounded-b-xl rounded-t-md relative"
@@ -307,44 +330,15 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
           style={{ transformOrigin: "bottom center" }}
         >
           <svg width="18" height="70" viewBox="0 0 18 70" className="overflow-visible">
-            {/* Quill shaft */}
             <line x1="9" y1="5" x2="9" y2="68" stroke="#d4c8a0" strokeWidth="1" />
             <line x1="9" y1="5" x2="9" y2="68" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
-
-            {/* Feather barbs — left side */}
-            <path
-              d="M 9 8 Q 3 15 2 28 Q 1 35 3 42 L 8 38 Q 7 30 8 20 Z"
-              fill="rgba(230,220,200,0.9)"
-              stroke="rgba(200,180,150,0.5)"
-              strokeWidth="0.5"
-            />
-            {/* Feather barbs — right side */}
-            <path
-              d="M 9 8 Q 15 15 16 28 Q 17 35 15 42 L 10 38 Q 11 30 10 20 Z"
-              fill="rgba(240,230,210,0.8)"
-              stroke="rgba(200,180,150,0.5)"
-              strokeWidth="0.5"
-            />
-            {/* Central vane line */}
+            <path d="M 9 8 Q 3 15 2 28 Q 1 35 3 42 L 8 38 Q 7 30 8 20 Z" fill="rgba(230,220,200,0.9)" stroke="rgba(200,180,150,0.5)" strokeWidth="0.5" />
+            <path d="M 9 8 Q 15 15 16 28 Q 17 35 15 42 L 10 38 Q 11 30 10 20 Z" fill="rgba(240,230,210,0.8)" stroke="rgba(200,180,150,0.5)" strokeWidth="0.5" />
             <line x1="9" y1="10" x2="9" y2="38" stroke="rgba(180,160,130,0.4)" strokeWidth="0.5" />
-
-            {/* Tip (nib) */}
-            <path
-              d="M 9 65 L 7 70 L 9 68 L 11 70 Z"
-              fill="#3a3028"
-            />
-            {/* Ink on nib */}
+            <path d="M 9 65 L 7 70 L 9 68 L 11 70 Z" fill="#3a3028" />
             <circle cx="9" cy="66" r="1" fill="#0a0a14" opacity="0.7" />
           </svg>
         </div>
-      </div>
-
-      {/* Label */}
-      <div
-        className="absolute -bottom-6 left-0 right-0 text-center text-[10px] whitespace-nowrap text-[var(--apple-secondary)]"
-        style={{ opacity: open ? 1 : 0, transition: "opacity 0.2s" }}
-      >
-        蘸墨导出
       </div>
     </div>
   );
