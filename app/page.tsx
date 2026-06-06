@@ -70,10 +70,21 @@ export default function Home() {
     }
   };
 
-  // Show editor pages by default when empty (no projects, no chapters)
-  // so first-time visitors see the book, not an empty list
+  // Track explicit user navigation so we can show editor by default
+  // but still let users switch to project/drafts views
+  const [userNavigated, setUserNavigated] = useState(false);
+
+  const handleNavigate = (id: string) => {
+    setUserNavigated(true);
+    setActiveNav(id);
+  };
+
+  // Show editor by default when empty (better first impression than empty list)
+  // But if user explicitly clicked a bookmark, respect their choice
   const isEmpty = projects.length === 0 && chapters.length === 0;
-  const isEditing = isEmpty || (activeNav !== "project" && activeNav !== "drafts" && activeNav !== "exports");
+  const isEditing = userNavigated
+    ? (activeNav !== "project" && activeNav !== "drafts" && activeNav !== "exports")
+    : (isEmpty || (activeNav !== "project" && activeNav !== "drafts" && activeNav !== "exports"));
 
   return (
     <CinematicShell
@@ -82,7 +93,7 @@ export default function Home() {
       yaml={yaml}
       scriptTitle={title}
       script={script}
-      onNavigate={setActiveNav}
+      onNavigate={handleNavigate}
       onConvert={handleConvert}
     >
       {isEditing ? (
