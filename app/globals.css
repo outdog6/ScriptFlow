@@ -55,3 +55,64 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(127, 127, 127, 0.3); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(127, 127, 127, 0.5); }
+
+/* ============================================
+   Cinematic Desk Mode (forced dark)
+   ============================================ */
+
+html[data-cinematic] {
+  --cine-bg: #0a0a0c;
+  --cine-desk: #141210;
+  --cine-book-cover: #2c2218;
+  --cine-book-spine: #3d3224;
+  --cine-book-page: #f4f0e6;
+  --cine-page-text: #2c2416;
+  --cine-page-secondary: #6b5e4e;
+  --cine-bulb: #ffb74d;
+  --cine-beam: rgba(255, 183, 77, 0.10);
+  --cine-accent: #e6a23c;
+  --cine-ribbon-gold: #d4a843;
+  --cine-ribbon-blue: #5b8ec9;
+  --cine-ribbon-green: #5e9b6e;
+  --cine-ribbon-silver: #8a8a8a;
+}
+
+html[data-cinematic] body {
+  background: var(--cine-bg);
+  color: #d4cfc4;
+}
+
+html[data-cinematic] .dark {
+  --apple-bg: var(--cine-bg);
+  --apple-white: #1a1816;
+  --apple-text: #d4cfc4;
+  --apple-secondary: #8a8070;
+  --apple-blue: var(--cine-accent);
+  --apple-blue-hover: #f0b840;
+  --apple-border: rgba(255, 255, 255, 0.06);
+  --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* Book page content resets — override dark panel styles inside book */
+.cine-page {
+  background: var(--cine-book-page);
+  color: var(--cine-page-text);
+}
+
+.cine-page ::-webkit-scrollbar-thumb {
+  background: rgba(139, 119, 90, 0.3);
+}
+
+/* Desk surface texture */
+.cine-desk {
+  background:
+    radial-gradient(ellipse at 50% 50%, #1a1814 0%, #0a0a0c 100%);
+}
+
+/* Page paper texture */
+.cine-page-texture {
+  background-image:
+    linear-gradient(0deg, transparent 24%, rgba(139, 119, 90, 0.03) 25%, rgba(139, 119, 90, 0.03) 26%, transparent 27%, transparent 74%, rgba(139, 119, 90, 0.03) 75%, rgba(139, 119, 90, 0.03) 76%, transparent 77%),
+    linear-gradient(90deg, transparent 24%, rgba(139, 119, 90, 0.02) 25%, rgba(139, 119, 90, 0.02) 26%, transparent 27%);
+  background-size: 24px 24px;
+}
