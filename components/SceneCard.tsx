@@ -8,7 +8,7 @@ interface Props {
 
 export default function SceneCard({ scene, characterName }: Props) {
   return (
-    <div className="bg-white rounded-2xl p-6 mb-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+    <div className="bg-white rounded-2xl p-6 mb-4 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 transition-all duration-300">
       <div className="flex items-center gap-3 mb-4">
         <span className="text-[11px] font-semibold text-[#636366] uppercase tracking-wider">
           第 {scene.scene} 场

@@ -26,11 +26,12 @@ export default function Sidebar({
   onSelectChapter,
 }: Props) {
   return (
-    <div className="glass w-[260px] border-r border-[rgba(0,0,0,0.08)] flex flex-col">
-      <div className="px-5 py-6 border-b border-[rgba(0,0,0,0.06)]">
+    <div className="w-[260px] border-r border-[rgba(0,0,0,0.06)] flex flex-col bg-gradient-to-b from-[rgba(0,113,227,0.03)] to-white">
+      <div className="px-5 py-6">
         <h1 className="text-[20px] font-bold tracking-[-0.3px] text-[#1d1d1f]">
-          Script<span className="text-[#0071e3]">Flow</span>
+          Script<span className="text-[#0071e3] font-extrabold">Flow</span>
         </h1>
+        <p className="text-[11px] text-[#636366] mt-0.5">AI 小说转剧本</p>
       </div>
 
       <div className="py-2">
