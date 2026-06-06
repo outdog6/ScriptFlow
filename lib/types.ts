@@ -81,6 +81,18 @@ export interface Draft {
   chapterCount: number;
   yaml: string;
   script: ScriptData;
+  chapters: NovelChapter[];
+}
+
+export interface Project {
+  id: string;
+  title: string;
+  author: string;
+  createdAt: string;
+  updatedAt: string;
+  chapters: NovelChapter[];
+  yaml: string;
+  script: ScriptData | null;
 }
 
 export interface AppState {
@@ -94,4 +106,6 @@ export interface AppState {
   converting: boolean;
   activeNav: string;
   drafts: Draft[];
+  projects: Project[];
+  activeProjectId: string | null;
 }

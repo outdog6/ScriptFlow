@@ -10,8 +10,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-CN">
-      <body className="h-screen overflow-hidden">
+    <html lang="zh-CN" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem("scriptflow-theme");if(t==="dark")document.documentElement.classList.add("dark")}catch(e){}`,
+          }}
+        />
+      </head>
+      <body className="h-screen overflow-hidden bg-[var(--apple-bg)] text-[var(--apple-text)]">
         <AppProvider>{children}</AppProvider>
       </body>
     </html>

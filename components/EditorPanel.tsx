@@ -12,10 +12,15 @@ interface Props {
   script: ScriptData | null;
   editorTab: "novel" | "script";
   converting: boolean;
+  title: string;
+  author: string;
+  onTitleChange: (v: string) => void;
+  onAuthorChange: (v: string) => void;
   onTextLoaded: (text: string) => void;
   onTabChange: (tab: "novel" | "script") => void;
   onConvert: () => void;
   onSelectChapter: (id: number) => void;
+  onUpdateContent: (id: number, content: string) => void;
 }
 
 export default function EditorPanel({
@@ -25,15 +30,24 @@ export default function EditorPanel({
   script,
   editorTab,
   converting,
+  title,
+  author,
+  onTitleChange,
+  onAuthorChange,
   onTextLoaded,
   onTabChange,
   onConvert,
   onSelectChapter,
+  onUpdateContent,
 }: Props) {
   return (
     <div className="flex flex-col flex-1 min-w-0">
       <EditorToolbar
         editorTab={editorTab}
+        title={title}
+        author={author}
+        onTitleChange={onTitleChange}
+        onAuthorChange={onAuthorChange}
         onTabChange={onTabChange}
         onConvert={onConvert}
         converting={converting}
@@ -47,11 +61,12 @@ export default function EditorPanel({
             chapters={chapters}
             activeChapter={activeChapter}
             onSelectChapter={onSelectChapter}
+            onUpdateContent={onUpdateContent}
           />
         ) : script ? (
           <ScriptView script={script} />
         ) : (
-          <div className="flex items-center justify-center h-full text-[#86868b] text-[14px]">
+          <div className="flex items-center justify-center h-full text-[var(--apple-secondary)] text-[14px]">
             点击右上角「AI 转换」生成剧本
           </div>
         )}

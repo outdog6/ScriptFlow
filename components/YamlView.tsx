@@ -1,3 +1,4 @@
+import { memo, useMemo } from "react";
 // components/YamlView.tsx
 interface Props {
   yaml: string;
@@ -14,11 +15,13 @@ function highlightYaml(yaml: string): string {
     .replace(/^(\s*#.*)$/gm, '<span style="color:#636366">$1</span>');
 }
 
-export default function YamlView({ yaml }: Props) {
+function YamlView({ yaml }: Props) {
+  const highlighted = useMemo(() => highlightYaml(yaml), [yaml]);
   return (
     <pre
-      className="bg-[#1d1d1f] rounded-xl p-5 font-mono text-[12px] leading-[1.8] text-[#f5f5f7] whitespace-pre-wrap overflow-x-auto"
-      dangerouslySetInnerHTML={{ __html: highlightYaml(yaml) }}
+      className="bg-[#1c1c1e] rounded-xl p-5 font-mono text-[12px] leading-[1.8] text-[#e5e5e7] whitespace-pre-wrap overflow-x-auto"
+      dangerouslySetInnerHTML={{ __html: highlighted }}
     />
   );
 }
+export default memo(YamlView);

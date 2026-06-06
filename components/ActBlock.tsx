@@ -1,3 +1,4 @@
+import { memo } from "react";
 // components/ActBlock.tsx
 import { Act } from "@/lib/types";
 import SceneCard from "./SceneCard";
@@ -7,19 +8,19 @@ interface Props {
   characterName: (id: string) => string;
 }
 
-export default function ActBlock({ act, characterName }: Props) {
+function ActBlock({ act, characterName }: Props) {
   return (
     <div className="mb-8">
       <div className="mb-1">
-        <span className="text-[11px] font-semibold text-[#0071e3] uppercase tracking-wider">
+        <span className="text-[11px] font-semibold text-[var(--apple-blue)] uppercase tracking-wider">
           第 {act.act} 幕
         </span>
       </div>
-      <h2 className="text-[28px] font-bold tracking-[-0.5px] text-[#1d1d1f] mb-1">
+      <h2 className="text-[28px] font-bold tracking-[-0.5px] text-[var(--apple-text)] mb-1 [text-wrap:balance]">
         {act.title}
       </h2>
       {act.summary && (
-        <p className="text-[14px] text-[#86868b] mb-6">{act.summary}</p>
+        <p className="text-[14px] text-[var(--apple-secondary)] mb-6">{act.summary}</p>
       )}
 
       <div>
@@ -30,3 +31,4 @@ export default function ActBlock({ act, characterName }: Props) {
     </div>
   );
 }
+export default memo(ActBlock);

@@ -1,4 +1,4 @@
-import { ScriptData, Draft } from "./types";
+import { ScriptData, NovelChapter, Draft } from "./types";
 
 const DRAFTS_KEY = "scriptflow_drafts";
 const MAX_DRAFTS = 20;
@@ -17,7 +17,8 @@ export function saveDraft(
   title: string,
   chapterCount: number,
   yaml: string,
-  script: ScriptData
+  script: ScriptData,
+  chapters: NovelChapter[]
 ): Draft[] {
   const drafts = loadDrafts();
   const draft: Draft = {
@@ -27,6 +28,7 @@ export function saveDraft(
     createdAt: new Date().toLocaleString("zh-CN"),
     yaml,
     script,
+    chapters,
   };
   drafts.unshift(draft);
   if (drafts.length > MAX_DRAFTS) drafts.pop();

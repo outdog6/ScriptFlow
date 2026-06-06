@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import EditorPanel from "@/components/EditorPanel";
 import PreviewPanel from "@/components/PreviewPanel";
 import DraftsView from "@/components/DraftsView";
+import ProjectsView from "@/components/ProjectsView";
 
 export default function Home() {
   const {
@@ -21,6 +22,7 @@ export default function Home() {
     drafts,
     activeNav,
     loadText,
+    updateChapterContent,
     setEditorTab,
     setPreviewTab,
     setActiveChapter,
@@ -30,9 +32,18 @@ export default function Home() {
     restoreDraft,
     setConverting,
     setActiveNav,
+    theme,
+    toggleTheme,
+    projects,
+    activeProjectId,
+    createNewProject,
+    switchProject,
+    removeProject,
   } = useApp();
 
   const [toast, setToast] = useState<{ message: string; type: "error" | "success" } | null>(null);
+  const [title, setTitle] = useState("未命名作品");
+  const [author, setAuthor] = useState("未知");
 
   const handleConvert = async () => {
     setConverting(true);
@@ -41,8 +52,8 @@ export default function Home() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: "未命名作品",
-          author: "未知",
+          title,
+          author,
           chapters,
         }),
       });
@@ -52,7 +63,7 @@ export default function Home() {
       } else {
         setScript(data.yaml, data.script);
         setEditorTab("script");
-        autoSaveDraft(data.script.meta.title, data.yaml, data.script);
+        autoSaveDraft(data.script.meta.title, data.yaml, data.script, chapters);
         setToast({ message: "剧本已自动保存到草稿", type: "success" });
       }
     } catch (err) {
@@ -62,25 +73,38 @@ export default function Home() {
     }
   };
 
-  const showMainWorkspace = activeNav === "project" || chapters.length > 0;
-
   return (
-    <div className="flex h-screen bg-[#f5f5f7]">
+    <div className="flex h-screen bg-[var(--apple-bg)]">
       <Sidebar
         chapters={chapters}
         activeChapter={activeChapter}
         converting={converting}
         yaml={yaml}
-        scriptTitle={script?.meta?.title || ""}
+        scriptTitle={title}
         activeNav={activeNav}
+        theme={theme}
+        onToggleTheme={toggleTheme}
         onNavigate={setActiveNav}
         onSelectChapter={setActiveChapter}
       />
 
-      {activeNav === "drafts" || activeNav === "exports" ? (
+      {activeNav === "project" ? (
+        <div className="flex flex-col flex-1 min-w-0">
+          <div className="flex items-center px-6 py-3 border-b border-[rgba(0,0,0,0.06)] bg-[var(--apple-white)]">
+            <h2 className="text-[15px] font-semibold text-[var(--apple-text)]">我的项目</h2>
+          </div>
+          <ProjectsView
+            projects={projects}
+            activeProjectId={activeProjectId}
+            onCreate={createNewProject}
+            onSwitch={switchProject}
+            onDelete={removeProject}
+          />
+        </div>
+      ) : activeNav === "drafts" || activeNav === "exports" ? (
         <div className="flex flex-col flex-1 min-w-0">
           <div className="glass flex items-center px-6 py-3 border-b border-[rgba(0,0,0,0.06)]">
-            <h2 className="text-[15px] font-semibold text-[#1d1d1f]">
+            <h2 className="text-[15px] font-semibold text-[var(--apple-text)]">
               {activeNav === "drafts" ? "草稿" : "导出记录"}
             </h2>
           </div>
@@ -99,10 +123,15 @@ export default function Home() {
             script={script}
             editorTab={editorTab}
             converting={converting}
+            title={title}
+            author={author}
+            onTitleChange={setTitle}
+            onAuthorChange={setAuthor}
             onTextLoaded={loadText}
             onTabChange={setEditorTab}
             onConvert={handleConvert}
             onSelectChapter={setActiveChapter}
+            onUpdateContent={updateChapterContent}
           />
 
           <PreviewPanel
