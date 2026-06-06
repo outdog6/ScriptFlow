@@ -253,7 +253,7 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
       {/* Parchment scroll — long tear-edged strip */}
       <div
         ref={parchmentRef}
-        className="relative mx-auto mb-3 w-12 rounded-sm"
+        className="relative mx-auto mb-1 w-12 rounded-sm"
         style={{
           height: 170,
           background: "linear-gradient(180deg, #f8f0dc 0%, #ecdaa8 45%, #f4e8cc 100%)",
@@ -292,13 +292,6 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
             style={{ opacity: 0, strokeDasharray: 320, strokeDashoffset: 320, transition: "stroke-dashoffset 1.5s ease-out, opacity 0.3s ease-out" }}
           />
         </svg>
-      </div>
-
-      {/* Label */}
-      <div className="text-center mb-3">
-        <span className="text-[12px] font-semibold tracking-wider" style={{ color: "#b8a080" }}>
-          ✦  蘸墨导出  ✦
-        </span>
       </div>
 
       {/* Ink bottle + quill */}
@@ -413,6 +406,13 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
           </svg>
           </div>
         </div>
+      </div>
+
+      {/* Label — below the bottle */}
+      <div className="text-center mt-2">
+        <span className="text-[12px] font-semibold tracking-wider" style={{ color: "#b8a080" }}>
+          ✦  蘸墨导出  ✦
+        </span>
       </div>
 
       {/* Idle quill bob animation */}
