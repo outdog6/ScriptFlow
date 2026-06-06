@@ -8,7 +8,8 @@ interface Props {
 
 export default function ExportButton({ yaml, scriptTitle }: Props) {
   const handleExportYaml = () => {
-    const blob = new Blob([yaml], { type: "text/yaml" });
+    const fixed = yaml.replace(/title:\s*".*?"/, `title: "${scriptTitle}"`);
+    const blob = new Blob([fixed], { type: "text/yaml" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;

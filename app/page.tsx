@@ -74,7 +74,7 @@ export default function Home() {
         activeChapter={activeChapter}
         converting={converting}
         yaml={yaml}
-        scriptTitle={script?.meta?.title || ""}
+        scriptTitle={title}
         activeNav={activeNav}
         theme={theme}
         onToggleTheme={toggleTheme}
