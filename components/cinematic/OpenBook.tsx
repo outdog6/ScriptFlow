@@ -37,7 +37,8 @@ export default function OpenBook({ open, children }: Props) {
         style={{
           width: "92%",
           maxWidth: 1100,
-          minHeight: 560,
+          height: "calc(100vh - 140px)",
+          maxHeight: "calc(100vh - 100px)",
           transition: "all 1s cubic-bezier(0.34, 1.3, 0.64, 1)",
           ...(open
             ? {

@@ -82,7 +82,7 @@ html[data-cinematic] body {
   color: #c4b8a8;
 }
 
-html[data-cinematic] .dark {
+html[data-cinematic].dark {
   --apple-bg: var(--cine-bg);
   --apple-white: #2a221a;
   --apple-text: #c4b8a8;
