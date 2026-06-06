@@ -21,6 +21,7 @@ export default function Home() {
     drafts,
     activeNav,
     loadText,
+    updateChapterContent,
     setEditorTab,
     setPreviewTab,
     setActiveChapter,
@@ -103,6 +104,7 @@ export default function Home() {
             onTabChange={setEditorTab}
             onConvert={handleConvert}
             onSelectChapter={setActiveChapter}
+            onUpdateContent={updateChapterContent}
           />
 
           <PreviewPanel

@@ -16,6 +16,7 @@ interface Props {
   onTabChange: (tab: "novel" | "script") => void;
   onConvert: () => void;
   onSelectChapter: (id: number) => void;
+  onUpdateContent: (id: number, content: string) => void;
 }
 
 export default function EditorPanel({
@@ -29,6 +30,7 @@ export default function EditorPanel({
   onTabChange,
   onConvert,
   onSelectChapter,
+  onUpdateContent,
 }: Props) {
   return (
     <div className="flex flex-col flex-1 min-w-0">
@@ -47,6 +49,7 @@ export default function EditorPanel({
             chapters={chapters}
             activeChapter={activeChapter}
             onSelectChapter={onSelectChapter}
+            onUpdateContent={onUpdateContent}
           />
         ) : script ? (
           <ScriptView script={script} />

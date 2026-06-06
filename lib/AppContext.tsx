@@ -8,6 +8,7 @@ import { loadDrafts, saveDraft, deleteDraft } from "./drafts";
 interface AppContextType extends AppState {
   drafts: Draft[];
   loadText: (text: string) => void;
+  updateChapterContent: (id: number, content: string) => void;
   setEditorTab: (tab: "novel" | "script") => void;
   setPreviewTab: (tab: "yaml" | "fountain") => void;
   setActiveChapter: (id: number) => void;
@@ -64,6 +65,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setActiveNav("project");
   }, []);
 
+  const updateChapterContent = useCallback((id: number, content: string) => {
+    setChapters((prev) =>
+      prev.map((ch) => (ch.id === id ? { ...ch, content } : ch))
+    );
+  }, []);
+
   const handleSetActiveNav = useCallback((id: string) => {
     if (id === "drafts") setDrafts(loadDrafts());
     setActiveNav(id);
@@ -83,6 +90,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         activeNav,
         drafts,
         loadText,
+        updateChapterContent,
         setEditorTab,
         setPreviewTab,
         setActiveChapter,

@@ -1,17 +1,39 @@
+"use client";
+import { useState, useEffect, useRef } from "react";
 import { NovelChapter } from "@/lib/types";
 
 interface Props {
   chapters: NovelChapter[];
   activeChapter: number;
   onSelectChapter: (id: number) => void;
+  onUpdateContent: (id: number, content: string) => void;
 }
 
-export default function NovelView({ chapters, activeChapter, onSelectChapter }: Props) {
+export default function NovelView({
+  chapters,
+  activeChapter,
+  onSelectChapter,
+  onUpdateContent,
+}: Props) {
   const chapter = chapters.find((c) => c.id === activeChapter);
+  const [localText, setLocalText] = useState(chapter?.content || "");
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    setLocalText(chapter?.content || "");
+  }, [chapter?.id]);
+
+  const handleChange = (value: string) => {
+    setLocalText(value);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      onUpdateContent(activeChapter, value);
+    }, 400);
+  };
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex gap-2 px-8 pt-4 pb-2 overflow-x-auto">
+      <div className="flex items-center gap-2 px-8 pt-4 pb-2 overflow-x-auto">
         {chapters.map((ch) => (
           <button
             key={ch.id}
@@ -25,13 +47,18 @@ export default function NovelView({ chapters, activeChapter, onSelectChapter }: 
             {ch.title}
           </button>
         ))}
+        <span className="text-[11px] text-[#636366] ml-2 flex-shrink-0">
+          可直接编辑原文
+        </span>
       </div>
-      <div className="flex-1 overflow-y-auto px-8 py-6">
-        <div className="max-w-[720px] mx-auto">
-          <pre className="text-[15px] leading-relaxed whitespace-pre-wrap font-sans text-[#1d1d1f]">
-            {chapter?.content || "请选择章节"}
-          </pre>
-        </div>
+      <div className="flex-1 overflow-y-auto px-8 py-4">
+        <textarea
+          value={localText}
+          onChange={(e) => handleChange(e.target.value)}
+          placeholder="请选择章节或粘贴文本..."
+          className="w-full h-full max-w-[720px] mx-auto block resize-none border-0 outline-none bg-transparent text-[15px] leading-relaxed font-sans text-[#1d1d1f] placeholder-[#636366]"
+          spellCheck={false}
+        />
       </div>
     </div>
   );
