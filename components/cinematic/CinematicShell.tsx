@@ -181,18 +181,19 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
     const tl = gsap.timeline({ onComplete: () => setWriting(false) });
 
     // 1. Quill lifts from bottle + tilts
-    tl.to(quillRef.current, { y: -30, rotate: -10, duration: 0.25, ease: "power2.out" })
+    tl.to(quillRef.current, { y: -40, rotate: -10, duration: 0.25, ease: "power2.out" })
       // 2. Dip — quick micro shake
       .to(quillRef.current, { scaleX: 0.9, duration: 0.08 })
       .to(quillRef.current, { scaleX: 1, duration: 0.08 })
-      // 3. Rise to top of parchment strip
-      .to(quillRef.current, { x: -20, y: -100, rotate: -20, duration: 0.45, ease: "power2.inOut" })
-      // 4. Draw wavy line down the strip
-      .to(quillRef.current, { x: -18, y: -85, duration: 0.15 })
-      .to(quillRef.current, { x: -22, y: -70, duration: 0.15 })
-      .to(quillRef.current, { x: -18, y: -55, duration: 0.15 })
-      .to(quillRef.current, { x: -22, y: -40, duration: 0.15 })
-      .to(quillRef.current, { x: -18, y: -25, duration: 0.15 })
+      // 3. Rise to top of parchment strip (taller now: 160px + gaps)
+      .to(quillRef.current, { x: -30, y: -210, rotate: -20, duration: 0.5, ease: "power2.inOut" })
+      // 4. Draw wavy line down the strip (6 stops over 160px)
+      .to(quillRef.current, { x: -25, y: -185, duration: 0.15 })
+      .to(quillRef.current, { x: -34, y: -160, duration: 0.15 })
+      .to(quillRef.current, { x: -26, y: -135, duration: 0.15 })
+      .to(quillRef.current, { x: -34, y: -110, duration: 0.15 })
+      .to(quillRef.current, { x: -28, y: -85, duration: 0.15 })
+      .to(quillRef.current, { x: -30, y: -60, duration: 0.15 })
       // 5. Fade in the ink stroke on parchment
       .call(() => {
         if (inkLineRef.current) {
@@ -216,7 +217,7 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
       .call(() => {
         if (inkLineRef.current) {
           inkLineRef.current.style.opacity = "0";
-          inkLineRef.current.style.strokeDashoffset = "100";
+          inkLineRef.current.style.strokeDashoffset = "300";
         }
       });
   }, [writing, yaml, scriptTitle, script, download]);
@@ -245,80 +246,135 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
         </div>
       )}
 
-      {/* Long parchment strip — above the inkwell */}
+      {/* Parchment scroll strip — prominent above bottle */}
       <div
-        className="relative mx-auto mb-1 w-6 rounded-sm"
+        className="relative mx-auto mb-2 w-10 rounded-sm"
         style={{
-          height: 88,
-          background: "linear-gradient(180deg, #f2e8cc 0%, #e8d8a8 50%, #f0e4c0 100%)",
-          boxShadow: "1px 2px 8px rgba(0,0,0,0.25), inset 0 0 20px rgba(180,150,100,0.1)",
-          border: "1px solid rgba(180,150,100,0.2)",
+          height: 160,
+          background: "linear-gradient(180deg, #f5edda 0%, #ead8a8 50%, #f3e8cc 100%)",
+          boxShadow: "2px 4px 16px rgba(0,0,0,0.3), inset 0 0 40px rgba(180,150,100,0.08)",
+          border: "1px solid rgba(180,150,100,0.25)",
         }}
       >
-        {/* Top tear / curl */}
+        {/* Torn top edge */}
         <div
-          className="absolute -top-1 left-0 right-0 h-2"
+          className="absolute -top-1.5 left-0 right-0 h-3"
           style={{
-            background: "linear-gradient(180deg, #ddd0a0, #f2e8cc)",
-            borderRadius: "1px 1px 0 0",
+            background: "linear-gradient(180deg, #d8c898 0%, #f5edda 100%)",
+            clipPath: "polygon(0% 50%, 10% 0%, 25% 40%, 40% 10%, 55% 45%, 70% 5%, 85% 35%, 100% 15%, 100% 100%, 0% 100%)",
+          }}
+        />
+        {/* Bottom tear */}
+        <div
+          className="absolute -bottom-1 left-0 right-0 h-2"
+          style={{
+            background: "linear-gradient(180deg, #f3e8cc, #d8c898)",
+            clipPath: "polygon(0% 0%, 15% 50%, 30% 10%, 55% 60%, 70% 15%, 85% 45%, 100% 20%, 100% 100%, 0% 100%)",
           }}
         />
 
-        {/* Wavy ink stroke — hidden until animation */}
+        {/* Wavy ink stroke */}
         <svg
           width="100%"
           height="100%"
-          viewBox="0 0 24 88"
+          viewBox="0 0 40 160"
           preserveAspectRatio="none"
           className="absolute inset-0"
           style={{ overflow: "visible" }}
         >
           <path
             ref={inkLineRef}
-            d="M 12 4 Q 8 15 12 22 Q 16 30 12 38 Q 8 46 12 54 Q 16 62 12 70 Q 8 78 12 84"
-            stroke="#0a0a14"
-            strokeWidth="1.5"
+            d="M 20 8 Q 10 25 22 38 Q 30 48 18 60 Q 8 72 24 84 Q 32 94 16 108 Q 8 118 22 130 Q 30 140 18 152"
+            stroke="#2a1a0a"
+            strokeWidth="2"
             fill="none"
             strokeLinecap="round"
             style={{
               opacity: 0,
-              strokeDasharray: 100,
-              strokeDashoffset: 100,
-              transition: "stroke-dashoffset 1s ease-out, opacity 0.3s ease-out",
+              strokeDasharray: 300,
+              strokeDashoffset: 300,
+              transition: "stroke-dashoffset 1.4s ease-out, opacity 0.3s ease-out",
             }}
           />
         </svg>
       </div>
 
+      {/* Label — always visible so users know what this is */}
+      <div className="text-center mb-2">
+        <span
+          className="text-[11px] font-medium tracking-wide"
+          style={{ color: "var(--apple-secondary)" }}
+        >
+          蘸墨导出
+        </span>
+      </div>
+
       {/* Ink bottle + quill */}
       <div className="relative cursor-pointer mx-auto w-fit" onClick={() => setOpen(!open)}>
+        {/* Bottle shadow on desk */}
+        <div
+          className="absolute -bottom-1 left-2 right-2 h-3 rounded-full bg-black/25 blur-sm"
+        />
+
         {/* Ink bottle */}
         <div
-          className="w-12 h-14 rounded-b-xl rounded-t-md relative"
+          className="w-18 h-22 rounded-b-2xl rounded-t-lg relative"
           style={{
-            background: "linear-gradient(135deg, rgba(40,30,20,0.7) 0%, rgba(20,15,10,0.9) 100%)",
+            width: 72,
+            height: 88,
+            background: "linear-gradient(135deg, rgba(50,38,24,0.75) 0%, rgba(25,18,12,0.92) 100%)",
             border: "1px solid rgba(255,255,255,0.06)",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.4)",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.45)",
           }}
         >
-          {/* Glass highlight */}
+          {/* Glass highlight stripe */}
           <div
-            className="absolute left-1.5 top-2 w-2 h-8 rounded-full"
-            style={{ background: "rgba(255,255,255,0.06)" }}
+            className="absolute left-2 top-3 rounded-full"
+            style={{ width: 3, height: 48, background: "rgba(255,255,255,0.05)" }}
           />
+          {/* Small highlight */}
+          <div
+            className="absolute left-3 top-4 rounded-full"
+            style={{ width: 2, height: 20, background: "rgba(255,255,255,0.04)" }}
+          />
+
           {/* Ink level */}
           <div
-            className="absolute bottom-2 left-1.5 right-1.5 h-6 rounded-b-lg"
+            className="absolute bottom-3 left-2 right-2 rounded-b-xl"
             style={{
-              background: "linear-gradient(to bottom, #0a0a14 0%, #1a1a2e 60%, #0d0d18 100%)",
+              height: 36,
+              background: "linear-gradient(to bottom, #080810 0%, #141428 50%, #0a0a16 100%)",
+              borderTop: "1px solid rgba(255,255,255,0.03)",
             }}
           />
+          {/* Ink surface sheen */}
+          <div
+            className="absolute left-2 right-2 rounded-t-sm"
+            style={{
+              bottom: 36,
+              height: 2,
+              background: "rgba(255,255,255,0.04)",
+            }}
+          />
+
           {/* Bottle neck */}
           <div
-            className="absolute -top-2 left-1/2 -translate-x-1/2 w-7 h-3 rounded-t-md"
+            className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-t-md"
             style={{
-              background: "linear-gradient(135deg, #3a3028, #2a2018)",
-              border: "1px solid rgba(255,255,255,0.04)",
+              width: 28,
+              height: 14,
+              background: "linear-gradient(135deg, #4a3a2a, #2a1a0a)",
+              border: "1px solid rgba(255,255,255,0.05)",
+            }}
+          />
+          {/* Bottle rim */}
+          <div
+            className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-sm"
+            style={{
+              width: 32,
+              height: 5,
+              background: "#3a2a1a",
+              borderRadius: "3px 3px 0 0",
             }}
           />
         </div>
@@ -326,17 +382,22 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
         {/* Feather quill */}
         <div
           ref={quillRef}
-          className="absolute -top-2 left-1/2 -translate-x-1/2"
-          style={{ transformOrigin: "bottom center" }}
+          className="absolute left-1/2 -translate-x-1/2"
+          style={{ top: -6, transformOrigin: "bottom center" }}
         >
-          <svg width="18" height="70" viewBox="0 0 18 70" className="overflow-visible">
-            <line x1="9" y1="5" x2="9" y2="68" stroke="#d4c8a0" strokeWidth="1" />
-            <line x1="9" y1="5" x2="9" y2="68" stroke="rgba(255,255,255,0.2)" strokeWidth="0.5" />
-            <path d="M 9 8 Q 3 15 2 28 Q 1 35 3 42 L 8 38 Q 7 30 8 20 Z" fill="rgba(230,220,200,0.9)" stroke="rgba(200,180,150,0.5)" strokeWidth="0.5" />
-            <path d="M 9 8 Q 15 15 16 28 Q 17 35 15 42 L 10 38 Q 11 30 10 20 Z" fill="rgba(240,230,210,0.8)" stroke="rgba(200,180,150,0.5)" strokeWidth="0.5" />
-            <line x1="9" y1="10" x2="9" y2="38" stroke="rgba(180,160,130,0.4)" strokeWidth="0.5" />
-            <path d="M 9 65 L 7 70 L 9 68 L 11 70 Z" fill="#3a3028" />
-            <circle cx="9" cy="66" r="1" fill="#0a0a14" opacity="0.7" />
+          <svg width="28" height="120" viewBox="0 0 28 120" className="overflow-visible">
+            {/* Quill shaft */}
+            <line x1="14" y1="8" x2="14" y2="115" stroke="#d8cba0" strokeWidth="1.5" />
+            <line x1="14" y1="8" x2="14" y2="115" stroke="rgba(255,255,255,0.25)" strokeWidth="0.7" />
+            {/* Feather barbs — left */}
+            <path d="M 14 10 Q 4 22 3 45 Q 1 58 4 72 L 12 65 Q 10 50 12 30 Z" fill="rgba(240,230,210,0.9)" stroke="rgba(200,180,150,0.6)" strokeWidth="0.8" />
+            {/* Feather barbs — right */}
+            <path d="M 14 10 Q 24 22 25 45 Q 27 58 24 72 L 16 65 Q 18 50 16 30 Z" fill="rgba(250,240,220,0.8)" stroke="rgba(200,180,150,0.6)" strokeWidth="0.8" />
+            {/* Vane center line */}
+            <line x1="14" y1="14" x2="14" y2="62" stroke="rgba(170,150,120,0.5)" strokeWidth="0.8" />
+            {/* Nib tip */}
+            <path d="M 14 108 L 11 118 L 14 114 L 17 118 Z" fill="#3a2a18" />
+            <circle cx="14" cy="111" r="1.5" fill="#080810" opacity="0.8" />
           </svg>
         </div>
       </div>
