@@ -152,6 +152,7 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
   const [open, setOpen] = useState(false);
   const [writing, setWriting] = useState(false);
   const quillRef = useRef<HTMLDivElement>(null);
+  const parchmentRef = useRef<HTMLDivElement>(null);
   const inkLineRef = useRef<SVGPathElement>(null);
 
   const hasContent = !!(yaml || script);
@@ -167,33 +168,43 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
   }, [scriptTitle]);
 
   const triggerExport = useCallback((format: "yaml" | "fountain") => {
-    if (writing) return;
+    if (writing || !quillRef.current || !parchmentRef.current) return;
     setWriting(true);
     setOpen(false);
 
+    // Calculate real positions: parchment strip relative to quill container
+    const quillBox = quillRef.current.getBoundingClientRect();
+    const parchBox = parchmentRef.current.getBoundingClientRect();
+    const dx = parchBox.left + parchBox.width / 2 - quillBox.left - quillBox.width / 2;
+    const dyTop = parchBox.top + 12 - quillBox.top;
+    const dyBot = parchBox.bottom - 24 - quillBox.top;
+    const steps = 6;
+
     const tl = gsap.timeline({ onComplete: () => setWriting(false) });
 
-    // 1. Quill lifts from bottle + tilts
-    tl.to(quillRef.current, { y: -40, rotate: -10, duration: 0.25, ease: "power2.out" })
-      // 2. Dip — quick micro shake
+    // 1. Quill lifts from bottle
+    tl.to(quillRef.current, { y: -30, rotate: -10, duration: 0.25, ease: "power2.out" })
+      // 2. Dip micro-shake
       .to(quillRef.current, { scaleX: 0.9, duration: 0.08 })
       .to(quillRef.current, { scaleX: 1, duration: 0.08 })
-      // 3. Rise to top of parchment strip (taller now: 160px + gaps)
-      .to(quillRef.current, { x: -30, y: -210, rotate: -20, duration: 0.5, ease: "power2.inOut" })
-      // 4. Draw wavy line down the strip (6 stops over 160px)
-      .to(quillRef.current, { x: -25, y: -185, duration: 0.15 })
-      .to(quillRef.current, { x: -34, y: -160, duration: 0.15 })
-      .to(quillRef.current, { x: -26, y: -135, duration: 0.15 })
-      .to(quillRef.current, { x: -34, y: -110, duration: 0.15 })
-      .to(quillRef.current, { x: -28, y: -85, duration: 0.15 })
-      .to(quillRef.current, { x: -30, y: -60, duration: 0.15 })
-      // 5. Fade in the ink stroke on parchment
-      .call(() => {
-        if (inkLineRef.current) {
-          inkLineRef.current.style.opacity = "1";
-          inkLineRef.current.style.strokeDashoffset = "0";
-        }
-      }, [0]) // start at beginning of this label
+      // 3. Fly to top of parchment
+      .to(quillRef.current, { x: dx, y: dyTop, rotate: -20, duration: 0.45, ease: "power2.inOut" });
+
+    // 4. Draw wavy line down the strip
+    for (let i = 1; i <= steps; i++) {
+      const frac = i / steps;
+      const y = dyTop + (dyBot - dyTop) * frac;
+      const xOff = (i % 2 === 0 ? 6 : -6);
+      tl.to(quillRef.current, { x: dx + xOff, y, duration: 0.15 });
+    }
+
+    // 5. Fade ink stroke
+    tl.call(() => {
+      if (inkLineRef.current) {
+        inkLineRef.current.style.opacity = "1";
+        inkLineRef.current.style.strokeDashoffset = "0";
+      }
+    }, [0])
       // 6. Download
       .call(() => {
         if (format === "yaml") {
@@ -203,10 +214,10 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
           download(exportFountain(script), "fountain", "text/plain");
         }
       })
-      // 7. Pause, then return
+      // 7. Return to bottle
       .to({}, { duration: 0.5 })
       .to(quillRef.current, { x: 0, y: 0, rotate: 0, duration: 0.5, ease: "power2.in" })
-      // 8. Fade out ink line
+      // 8. Hide ink
       .call(() => {
         if (inkLineRef.current) {
           inkLineRef.current.style.opacity = "0";
@@ -241,6 +252,7 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
 
       {/* Parchment scroll — long tear-edged strip */}
       <div
+        ref={parchmentRef}
         className="relative mx-auto mb-3 w-12 rounded-sm"
         style={{
           height: 170,
