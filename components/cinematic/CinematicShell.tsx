@@ -246,161 +246,176 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
         </div>
       )}
 
-      {/* Parchment scroll strip — prominent above bottle */}
+      {/* Parchment scroll — long tear-edged strip */}
       <div
-        className="relative mx-auto mb-2 w-10 rounded-sm"
+        className="relative mx-auto mb-3 w-12 rounded-sm"
         style={{
-          height: 160,
-          background: "linear-gradient(180deg, #f5edda 0%, #ead8a8 50%, #f3e8cc 100%)",
-          boxShadow: "2px 4px 16px rgba(0,0,0,0.3), inset 0 0 40px rgba(180,150,100,0.08)",
-          border: "1px solid rgba(180,150,100,0.25)",
+          height: 170,
+          background: "linear-gradient(180deg, #f8f0dc 0%, #ecdaa8 45%, #f4e8cc 100%)",
+          boxShadow: "3px 6px 20px rgba(0,0,0,0.35), inset 0 0 50px rgba(200,160,100,0.06)",
+          border: "1px solid rgba(180,140,80,0.2)",
         }}
       >
-        {/* Torn top edge */}
-        <div
-          className="absolute -top-1.5 left-0 right-0 h-3"
+        {/* Torn top */}
+        <div className="absolute -top-2 left-0 right-0 h-4"
           style={{
-            background: "linear-gradient(180deg, #d8c898 0%, #f5edda 100%)",
-            clipPath: "polygon(0% 50%, 10% 0%, 25% 40%, 40% 10%, 55% 45%, 70% 5%, 85% 35%, 100% 15%, 100% 100%, 0% 100%)",
+            background: "linear-gradient(180deg, #d4c090 0%, #f8f0dc 100%)",
+            clipPath: "polygon(0% 60%, 8% 0%, 22% 50%, 35% 10%, 50% 55%, 65% 5%, 78% 45%, 92% 15%, 100% 50%, 100% 100%, 0% 100%)",
           }}
         />
         {/* Bottom tear */}
-        <div
-          className="absolute -bottom-1 left-0 right-0 h-2"
+        <div className="absolute -bottom-1.5 left-0 right-0 h-3"
           style={{
-            background: "linear-gradient(180deg, #f3e8cc, #d8c898)",
-            clipPath: "polygon(0% 0%, 15% 50%, 30% 10%, 55% 60%, 70% 15%, 85% 45%, 100% 20%, 100% 100%, 0% 100%)",
+            background: "linear-gradient(180deg, #f4e8cc, #d4c090)",
+            clipPath: "polygon(0% 0%, 12% 55%, 28% 8%, 48% 60%, 62% 12%, 80% 50%, 92% 20%, 100% 40%, 100% 100%, 0% 100%)",
           }}
         />
 
-        {/* Wavy ink stroke */}
-        <svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 40 160"
-          preserveAspectRatio="none"
-          className="absolute inset-0"
-          style={{ overflow: "visible" }}
-        >
-          <path
-            ref={inkLineRef}
-            d="M 20 8 Q 10 25 22 38 Q 30 48 18 60 Q 8 72 24 84 Q 32 94 16 108 Q 8 118 22 130 Q 30 140 18 152"
-            stroke="#2a1a0a"
-            strokeWidth="2"
-            fill="none"
-            strokeLinecap="round"
-            style={{
-              opacity: 0,
-              strokeDasharray: 300,
-              strokeDashoffset: 300,
-              transition: "stroke-dashoffset 1.4s ease-out, opacity 0.3s ease-out",
-            }}
+        {/* Wax seal at bottom */}
+        <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full"
+          style={{
+            background: "radial-gradient(circle at 40% 35%, #c0392b 0%, #8b1a1a 100%)",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.2)",
+          }}
+        />
+
+        {/* Ink stroke (hidden until write) */}
+        <svg width="100%" height="100%" viewBox="0 0 48 170" preserveAspectRatio="none" className="absolute inset-0" style={{ overflow: "visible" }}>
+          <path ref={inkLineRef}
+            d="M 24 10 Q 12 30 26 45 Q 36 58 20 72 Q 10 84 28 98 Q 38 108 18 122 Q 10 134 26 146 Q 36 154 22 164"
+            stroke="#1a0a04" strokeWidth="2.5" fill="none" strokeLinecap="round"
+            style={{ opacity: 0, strokeDasharray: 320, strokeDashoffset: 320, transition: "stroke-dashoffset 1.5s ease-out, opacity 0.3s ease-out" }}
           />
         </svg>
       </div>
 
-      {/* Label — always visible so users know what this is */}
-      <div className="text-center mb-2">
-        <span
-          className="text-[11px] font-medium tracking-wide"
-          style={{ color: "var(--apple-secondary)" }}
-        >
-          蘸墨导出
+      {/* Label */}
+      <div className="text-center mb-3">
+        <span className="text-[12px] font-semibold tracking-wider" style={{ color: "#b8a080" }}>
+          ✦  蘸墨导出  ✦
         </span>
       </div>
 
       {/* Ink bottle + quill */}
       <div className="relative cursor-pointer mx-auto w-fit" onClick={() => setOpen(!open)}>
-        {/* Bottle shadow on desk */}
-        <div
-          className="absolute -bottom-1 left-2 right-2 h-3 rounded-full bg-black/25 blur-sm"
-        />
+        {/* Desk shadow */}
+        <div className="absolute -bottom-1 -left-2 -right-2 h-4 rounded-full bg-black/30 blur-sm" />
 
-        {/* Ink bottle */}
-        <div
-          className="w-18 h-22 rounded-b-2xl rounded-t-lg relative"
-          style={{
-            width: 72,
-            height: 88,
-            background: "linear-gradient(135deg, rgba(50,38,24,0.75) 0%, rgba(25,18,12,0.92) 100%)",
-            border: "1px solid rgba(255,255,255,0.06)",
-            boxShadow: "0 4px 16px rgba(0,0,0,0.45)",
-          }}
-        >
-          {/* Glass highlight stripe */}
-          <div
-            className="absolute left-2 top-3 rounded-full"
-            style={{ width: 3, height: 48, background: "rgba(255,255,255,0.05)" }}
-          />
-          {/* Small highlight */}
-          <div
-            className="absolute left-3 top-4 rounded-full"
-            style={{ width: 2, height: 20, background: "rgba(255,255,255,0.04)" }}
-          />
+        {/* === INK BOTTLE — cartoon pot-bellied === */}
+        <div className="relative" style={{ width: 64, height: 72 }}>
+          {/* Bottle body — round, pot-bellied */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full"
+            style={{
+              width: 56,
+              height: 56,
+              background: "linear-gradient(180deg, rgba(60,45,30,0.8) 0%, rgba(25,16,8,0.95) 100%)",
+              border: "2px solid rgba(255,255,255,0.06)",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.5), inset 0 2px 8px rgba(0,0,0,0.4)",
+            }}
+          >
+            {/* Glass reflection — cartoon arc */}
+            <div className="absolute left-2 top-3 rounded-full"
+              style={{
+                width: 14,
+                height: 30,
+                background: "linear-gradient(90deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%)",
+                borderRadius: "40% 60% 50% 50%",
+              }}
+            />
+            {/* Small highlight dot */}
+            <div className="absolute left-4 top-5 w-2 h-3 rounded-full"
+              style={{ background: "rgba(255,255,255,0.08)" }}
+            />
 
-          {/* Ink level */}
-          <div
-            className="absolute bottom-3 left-2 right-2 rounded-b-xl"
-            style={{
-              height: 36,
-              background: "linear-gradient(to bottom, #080810 0%, #141428 50%, #0a0a16 100%)",
-              borderTop: "1px solid rgba(255,255,255,0.03)",
-            }}
-          />
-          {/* Ink surface sheen */}
-          <div
-            className="absolute left-2 right-2 rounded-t-sm"
-            style={{
-              bottom: 36,
-              height: 2,
-              background: "rgba(255,255,255,0.04)",
-            }}
-          />
+            {/* Ink visible through glass */}
+            <div className="absolute bottom-2 left-3 right-3 rounded-full"
+              style={{
+                height: 28,
+                background: "linear-gradient(180deg, #060610 0%, #14142a 50%, #0a0a18 100%)",
+                borderTop: "2px solid rgba(255,255,255,0.04)",
+              }}
+            />
+            {/* Ink surface shimmer */}
+            <div className="absolute left-4 right-4 rounded-full"
+              style={{
+                bottom: 28,
+                height: 2,
+                background: "rgba(255,255,255,0.06)",
+              }}
+            />
+          </div>
 
-          {/* Bottle neck */}
-          <div
-            className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-t-md"
+          {/* Cork stopper */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 rounded-t-md"
             style={{
-              width: 28,
-              height: 14,
-              background: "linear-gradient(135deg, #4a3a2a, #2a1a0a)",
-              border: "1px solid rgba(255,255,255,0.05)",
+              width: 22,
+              height: 20,
+              background: "linear-gradient(135deg, #d4b896 0%, #b8956e 50%, #a07850 100%)",
+              borderRadius: "5px 5px 2px 2px",
+              boxShadow: "0 1px 3px rgba(0,0,0,0.3)",
             }}
-          />
-          {/* Bottle rim */}
-          <div
-            className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-sm"
-            style={{
-              width: 32,
-              height: 5,
-              background: "#3a2a1a",
-              borderRadius: "3px 3px 0 0",
-            }}
-          />
+          >
+            {/* Cork texture lines */}
+            <div className="absolute top-2 left-1 right-1 h-0.5 rounded-full" style={{ background: "rgba(0,0,0,0.15)" }} />
+            <div className="absolute top-5 left-1 right-1 h-0.5 rounded-full" style={{ background: "rgba(0,0,0,0.1)" }} />
+            <div className="absolute top-8 left-2 right-2 h-0.5 rounded-full" style={{ background: "rgba(0,0,0,0.12)" }} />
+          </div>
         </div>
 
-        {/* Feather quill */}
-        <div
-          ref={quillRef}
-          className="absolute left-1/2 -translate-x-1/2"
-          style={{ top: -6, transformOrigin: "bottom center" }}
-        >
-          <svg width="28" height="120" viewBox="0 0 28 120" className="overflow-visible">
-            {/* Quill shaft */}
-            <line x1="14" y1="8" x2="14" y2="115" stroke="#d8cba0" strokeWidth="1.5" />
-            <line x1="14" y1="8" x2="14" y2="115" stroke="rgba(255,255,255,0.25)" strokeWidth="0.7" />
-            {/* Feather barbs — left */}
-            <path d="M 14 10 Q 4 22 3 45 Q 1 58 4 72 L 12 65 Q 10 50 12 30 Z" fill="rgba(240,230,210,0.9)" stroke="rgba(200,180,150,0.6)" strokeWidth="0.8" />
-            {/* Feather barbs — right */}
-            <path d="M 14 10 Q 24 22 25 45 Q 27 58 24 72 L 16 65 Q 18 50 16 30 Z" fill="rgba(250,240,220,0.8)" stroke="rgba(200,180,150,0.6)" strokeWidth="0.8" />
-            {/* Vane center line */}
-            <line x1="14" y1="14" x2="14" y2="62" stroke="rgba(170,150,120,0.5)" strokeWidth="0.8" />
-            {/* Nib tip */}
-            <path d="M 14 108 L 11 118 L 14 114 L 17 118 Z" fill="#3a2a18" />
-            <circle cx="14" cy="111" r="1.5" fill="#080810" opacity="0.8" />
+        {/* === FEATHER QUILL — cartoon expressive === */}
+        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: -12 }}>
+          <div ref={quillRef}
+            style={{
+              transformOrigin: "bottom center",
+              animation: writing ? "none" : "quillIdle 3s ease-in-out infinite",
+            }}
+          >
+          <svg width="34" height="130" viewBox="0 0 34 130" className="overflow-visible">
+            {/* Shaft */}
+            <line x1="17" y1="10" x2="17" y2="122" stroke="#e8d8b0" strokeWidth="2" strokeLinecap="round" />
+            <line x1="17" y1="10" x2="17" y2="122" stroke="rgba(255,255,255,0.3)" strokeWidth="1" strokeLinecap="round" />
+
+            {/* Left barbs — big swoopy curves */}
+            <path d="M 17 12 Q 2 25 0 52 Q -2 72 4 86 L 14 78 Q 10 60 14 38 Z"
+              fill="rgba(245,235,215,0.9)" stroke="rgba(200,175,140,0.6)" strokeWidth="1" />
+            {/* Left inner layer */}
+            <path d="M 17 16 Q 8 28 6 48 Q 4 60 7 72 L 13 66 Q 10 52 13 34 Z"
+              fill="rgba(255,245,230,0.5)" />
+
+            {/* Right barbs — asymmetric, playful */}
+            <path d="M 17 12 Q 30 22 33 48 Q 35 65 30 82 L 20 74 Q 24 56 20 36 Z"
+              fill="rgba(250,240,220,0.85)" stroke="rgba(200,175,140,0.6)" strokeWidth="1" />
+            {/* Right inner layer */}
+            <path d="M 17 16 Q 26 26 28 46 Q 30 58 26 70 L 20 64 Q 22 50 20 32 Z"
+              fill="rgba(255,248,238,0.5)" />
+
+            {/* Vane line */}
+            <line x1="17" y1="18" x2="17" y2="68" stroke="rgba(180,155,120,0.4)" strokeWidth="1" />
+
+            {/* Fluffy top curl */}
+            <path d="M 14 12 Q 8 8 12 2 Q 17 0 20 4 Q 24 0 28 6 Q 30 10 24 12"
+              fill="rgba(245,235,215,0.7)" stroke="rgba(200,175,140,0.4)" strokeWidth="0.5" />
+
+            {/* Nib — cartoon metal tip */}
+            <path d="M 17 112 L 13 122 L 17 118 L 21 122 Z" fill="#5a4a3a" />
+            <path d="M 17 114 L 15 121 L 17 117 L 19 121 Z" fill="#3a2a18" />
+            {/* Ink on nib tip */}
+            <circle cx="17" cy="118" r="2" fill="#060610" opacity="0.9" />
+            {/* Tiny ink drip */}
+            <ellipse cx="17" cy="124" rx="1" ry="1.5" fill="#060610" opacity="0.5" />
           </svg>
+          </div>
         </div>
       </div>
+
+      {/* Idle quill bob animation */}
+      <style>{`
+        @keyframes quillIdle {
+          0%, 100% { transform: rotate(0deg) translateY(0); }
+          30% { transform: rotate(-2deg) translateY(-3px); }
+          70% { transform: rotate(2deg) translateY(-1px); }
+        }
+      `}</style>
     </div>
   );
 }
