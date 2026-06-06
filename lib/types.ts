@@ -84,6 +84,17 @@ export interface Draft {
   chapters: NovelChapter[];
 }
 
+export interface Project {
+  id: string;
+  title: string;
+  author: string;
+  createdAt: string;
+  updatedAt: string;
+  chapters: NovelChapter[];
+  yaml: string;
+  script: ScriptData | null;
+}
+
 export interface AppState {
   mode: "upload" | "editing";
   chapters: NovelChapter[];
@@ -95,4 +106,6 @@ export interface AppState {
   converting: boolean;
   activeNav: string;
   drafts: Draft[];
+  projects: Project[];
+  activeProjectId: string | null;
 }

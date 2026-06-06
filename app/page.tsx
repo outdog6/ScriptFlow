@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import EditorPanel from "@/components/EditorPanel";
 import PreviewPanel from "@/components/PreviewPanel";
 import DraftsView from "@/components/DraftsView";
+import ProjectsView from "@/components/ProjectsView";
 
 export default function Home() {
   const {
@@ -33,6 +34,11 @@ export default function Home() {
     setActiveNav,
     theme,
     toggleTheme,
+    projects,
+    activeProjectId,
+    createNewProject,
+    switchProject,
+    removeProject,
   } = useApp();
 
   const [toast, setToast] = useState<{ message: string; type: "error" | "success" } | null>(null);
@@ -82,7 +88,20 @@ export default function Home() {
         onSelectChapter={setActiveChapter}
       />
 
-      {activeNav === "drafts" || activeNav === "exports" ? (
+      {activeNav === "project" ? (
+        <div className="flex flex-col flex-1 min-w-0">
+          <div className="flex items-center px-6 py-3 border-b border-[rgba(0,0,0,0.06)] bg-[var(--apple-white)]">
+            <h2 className="text-[15px] font-semibold text-[var(--apple-text)]">我的项目</h2>
+          </div>
+          <ProjectsView
+            projects={projects}
+            activeProjectId={activeProjectId}
+            onCreate={createNewProject}
+            onSwitch={switchProject}
+            onDelete={removeProject}
+          />
+        </div>
+      ) : activeNav === "drafts" || activeNav === "exports" ? (
         <div className="flex flex-col flex-1 min-w-0">
           <div className="glass flex items-center px-6 py-3 border-b border-[rgba(0,0,0,0.06)]">
             <h2 className="text-[15px] font-semibold text-[var(--apple-text)]">
