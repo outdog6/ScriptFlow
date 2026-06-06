@@ -1,6 +1,6 @@
 import { memo } from "react";
 // components/Sidebar.tsx
-import { NovelChapter } from "@/lib/types";
+import { NovelChapter, ScriptData } from "@/lib/types";
 import { Sun, Moon } from "lucide-react";
 import ProjectNav from "./ProjectNav";
 import ChapterList from "./ChapterList";
@@ -12,6 +12,7 @@ interface Props {
   converting: boolean;
   yaml: string;
   scriptTitle: string;
+  script: ScriptData | null;
   activeNav: string;
   theme: "light" | "dark";
   onToggleTheme: () => void;
@@ -25,6 +26,7 @@ function Sidebar({
   converting,
   yaml,
   scriptTitle,
+  script,
   activeNav,
   theme,
   onToggleTheme,
@@ -67,7 +69,8 @@ function Sidebar({
       )}
 
       <div className="mt-auto p-4 border-t border-[rgba(0,0,0,0.06)]">
-        <ExportButton yaml={yaml} scriptTitle={scriptTitle} />
+        <ExportButton yaml={yaml} scriptTitle={scriptTitle}
+        script={script} />
       </div>
     </div>
   );

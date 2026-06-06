@@ -81,6 +81,7 @@ export default function Home() {
         converting={converting}
         yaml={yaml}
         scriptTitle={title}
+        script={script}
         activeNav={activeNav}
         theme={theme}
         onToggleTheme={toggleTheme}
