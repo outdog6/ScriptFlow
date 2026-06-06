@@ -216,7 +216,7 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
       })
       // 7. Return to bottle
       .to({}, { duration: 0.5 })
-      .to(quillRef.current, { x: 0, y: 0, rotate: 0, duration: 0.5, ease: "power2.in" })
+      .to(quillRef.current, { x: 0, y: 0, rotate: 12, duration: 0.5, ease: "power2.in" })
       // 8. Hide ink
       .call(() => {
         if (inkLineRef.current) {
@@ -368,10 +368,12 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
         </div>
 
         {/* === FEATHER QUILL — cartoon expressive === */}
-        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: -12 }}>
+        <div className="absolute left-1/2 -translate-x-1/2" style={{ top: -90 }}>
           <div ref={quillRef}
             style={{
               transformOrigin: "bottom center",
+              transform: "rotate(12deg)",
+              transition: "transform 0.3s ease-out",
               animation: writing ? "none" : "quillIdle 3s ease-in-out infinite",
             }}
           >
