@@ -36,6 +36,8 @@ export default function Home() {
   } = useApp();
 
   const [toast, setToast] = useState<{ message: string; type: "error" | "success" } | null>(null);
+  const [title, setTitle] = useState("未命名作品");
+  const [author, setAuthor] = useState("未知");
 
   const handleConvert = async () => {
     setConverting(true);
@@ -44,8 +46,8 @@ export default function Home() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: "未命名作品",
-          author: "未知",
+          title,
+          author,
           chapters,
         }),
       });
@@ -102,6 +104,10 @@ export default function Home() {
             script={script}
             editorTab={editorTab}
             converting={converting}
+            title={title}
+            author={author}
+            onTitleChange={setTitle}
+            onAuthorChange={setAuthor}
             onTextLoaded={loadText}
             onTabChange={setEditorTab}
             onConvert={handleConvert}

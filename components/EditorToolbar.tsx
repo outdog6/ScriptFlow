@@ -2,6 +2,10 @@ import { Sparkles } from "lucide-react";
 
 interface Props {
   editorTab: "novel" | "script";
+  title: string;
+  author: string;
+  onTitleChange: (v: string) => void;
+  onAuthorChange: (v: string) => void;
   onTabChange: (tab: "novel" | "script") => void;
   onConvert: () => void;
   converting: boolean;
@@ -9,26 +13,47 @@ interface Props {
 
 export default function EditorToolbar({
   editorTab,
+  title,
+  author,
+  onTitleChange,
+  onAuthorChange,
   onTabChange,
   onConvert,
   converting,
 }: Props) {
   return (
-    <div className="flex items-center justify-between px-6 py-3 border-b border-[rgba(0,0,0,0.06)] bg-[var(--apple-white)]">
-      <div className="flex gap-1 bg-[rgba(0,0,0,0.04)] p-0.5 rounded-lg">
-        {(["novel", "script"] as const).map((tab) => (
-          <button
-            key={tab}
-            onClick={() => onTabChange(tab)}
-            className={`px-4 py-1.5 text-[13px] font-medium rounded-md transition-all duration-200 ${
-              editorTab === tab
-                ? "bg-[var(--apple-white)] text-[var(--apple-text)] shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
-                : "text-[var(--apple-secondary)] hover:text-[var(--apple-text)]"
-            }`}
-          >
-            {tab === "novel" ? "原文" : "剧本"}
-          </button>
-        ))}
+    <div className="flex items-center justify-between px-6 py-3 border-b border-[rgba(0,0,0,0.06)] dark:border-[rgba(255,255,255,0.06)] bg-[var(--apple-white)]">
+      <div className="flex items-center gap-3">
+        <div className="flex gap-1 bg-[rgba(0,0,0,0.04)] dark:bg-[rgba(255,255,255,0.04)] p-0.5 rounded-lg">
+          {(["novel", "script"] as const).map((tab) => (
+            <button
+              key={tab}
+              onClick={() => onTabChange(tab)}
+              className={`px-4 py-1.5 text-[13px] font-medium rounded-md transition-all duration-200 ${
+                editorTab === tab
+                  ? "bg-[var(--apple-white)] text-[var(--apple-text)] shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
+                  : "text-[var(--apple-secondary)] hover:text-[var(--apple-text)]"
+              }`}
+            >
+              {tab === "novel" ? "原文" : "剧本"}
+            </button>
+          ))}
+        </div>
+
+        <div className="h-5 w-px bg-[rgba(0,0,0,0.1)] dark:bg-[rgba(255,255,255,0.1)]" />
+
+        <input
+          value={title}
+          onChange={(e) => onTitleChange(e.target.value)}
+          placeholder="作品标题"
+          className="w-28 bg-transparent text-[13px] font-medium text-[var(--apple-text)] placeholder-[var(--apple-secondary)] outline-none border-b border-transparent hover:border-[rgba(0,0,0,0.15)] focus:border-[var(--apple-blue)] transition-colors"
+        />
+        <input
+          value={author}
+          onChange={(e) => onAuthorChange(e.target.value)}
+          placeholder="作者"
+          className="w-16 bg-transparent text-[12px] text-[var(--apple-secondary)] placeholder-[var(--apple-secondary)] outline-none border-b border-transparent hover:border-[rgba(0,0,0,0.15)] focus:border-[var(--apple-blue)] transition-colors"
+        />
       </div>
 
       <button

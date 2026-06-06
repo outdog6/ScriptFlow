@@ -12,6 +12,10 @@ interface Props {
   script: ScriptData | null;
   editorTab: "novel" | "script";
   converting: boolean;
+  title: string;
+  author: string;
+  onTitleChange: (v: string) => void;
+  onAuthorChange: (v: string) => void;
   onTextLoaded: (text: string) => void;
   onTabChange: (tab: "novel" | "script") => void;
   onConvert: () => void;
@@ -26,6 +30,10 @@ export default function EditorPanel({
   script,
   editorTab,
   converting,
+  title,
+  author,
+  onTitleChange,
+  onAuthorChange,
   onTextLoaded,
   onTabChange,
   onConvert,
@@ -36,6 +44,10 @@ export default function EditorPanel({
     <div className="flex flex-col flex-1 min-w-0">
       <EditorToolbar
         editorTab={editorTab}
+        title={title}
+        author={author}
+        onTitleChange={onTitleChange}
+        onAuthorChange={onAuthorChange}
         onTabChange={onTabChange}
         onConvert={onConvert}
         converting={converting}
