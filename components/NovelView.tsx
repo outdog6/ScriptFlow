@@ -40,14 +40,14 @@ export default function NovelView({
             onClick={() => onSelectChapter(ch.id)}
             className={`px-4 py-2 text-[13px] font-medium rounded-lg whitespace-nowrap transition-all ${
               ch.id === activeChapter
-                ? "bg-[#0071e3] text-white"
-                : "bg-white text-[#1d1d1f] hover:bg-[#f5f5f7]"
+                ? "bg-[var(--apple-blue)] text-white"
+                : "bg-[var(--apple-white)] text-[var(--apple-text)] hover:bg-[var(--apple-bg)]"
             }`}
           >
             {ch.title}
           </button>
         ))}
-        <span className="text-[11px] text-[#636366] ml-2 flex-shrink-0">
+        <span className="text-[11px] text-[var(--apple-secondary)] ml-2 flex-shrink-0">
           可直接编辑原文
         </span>
       </div>
@@ -56,7 +56,7 @@ export default function NovelView({
           value={localText}
           onChange={(e) => handleChange(e.target.value)}
           placeholder="请选择章节或粘贴文本..."
-          className="w-full h-full max-w-[720px] mx-auto block resize-none border-0 outline-none bg-transparent text-[15px] leading-relaxed font-sans text-[#1d1d1f] placeholder-[#636366]"
+          className="w-full h-full max-w-[720px] mx-auto block resize-none border-0 outline-none bg-transparent text-[15px] leading-relaxed font-sans text-[var(--apple-text)] placeholder-[var(--apple-secondary)]"
           spellCheck={false}
         />
       </div>

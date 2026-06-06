@@ -31,6 +31,8 @@ export default function Home() {
     restoreDraft,
     setConverting,
     setActiveNav,
+    theme,
+    toggleTheme,
   } = useApp();
 
   const [toast, setToast] = useState<{ message: string; type: "error" | "success" } | null>(null);
@@ -63,10 +65,8 @@ export default function Home() {
     }
   };
 
-  const showMainWorkspace = activeNav === "project" || chapters.length > 0;
-
   return (
-    <div className="flex h-screen bg-[#f5f5f7]">
+    <div className="flex h-screen bg-[var(--apple-bg)]">
       <Sidebar
         chapters={chapters}
         activeChapter={activeChapter}
@@ -74,6 +74,8 @@ export default function Home() {
         yaml={yaml}
         scriptTitle={script?.meta?.title || ""}
         activeNav={activeNav}
+        theme={theme}
+        onToggleTheme={toggleTheme}
         onNavigate={setActiveNav}
         onSelectChapter={setActiveChapter}
       />
@@ -81,7 +83,7 @@ export default function Home() {
       {activeNav === "drafts" || activeNav === "exports" ? (
         <div className="flex flex-col flex-1 min-w-0">
           <div className="glass flex items-center px-6 py-3 border-b border-[rgba(0,0,0,0.06)]">
-            <h2 className="text-[15px] font-semibold text-[#1d1d1f]">
+            <h2 className="text-[15px] font-semibold text-[var(--apple-text)]">
               {activeNav === "drafts" ? "草稿" : "导出记录"}
             </h2>
           </div>

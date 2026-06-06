@@ -21,8 +21,8 @@ export default function ProjectNav({ activeItem, onNavigate }: Props) {
           onClick={() => onNavigate(item.id)}
           className={`flex items-center gap-2.5 w-full px-4 py-2.5 text-[14px] rounded-lg transition-all ${
             activeItem === item.id
-              ? "bg-[rgba(0,113,227,0.1)] text-[#0071e3] font-medium"
-              : "text-[#1d1d1f] hover:bg-[rgba(0,0,0,0.04)]"
+              ? "bg-[rgba(0,113,227,0.1)] text-[var(--apple-blue)] font-medium"
+              : "text-[var(--apple-text)] hover:bg-[rgba(0,0,0,0.04)]"
           }`}
         >
           {item.icon}

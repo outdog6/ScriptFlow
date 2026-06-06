@@ -1,12 +1,14 @@
 // lib/AppContext.tsx
 "use client";
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
 import { AppState, NovelChapter, ScriptData, Draft } from "./types";
 import { parseChapters } from "./parser";
 import { loadDrafts, saveDraft, deleteDraft } from "./drafts";
 
 interface AppContextType extends AppState {
   drafts: Draft[];
+  theme: "light" | "dark";
+  toggleTheme: () => void;
   loadText: (text: string) => void;
   updateChapterContent: (id: number, content: string) => void;
   setEditorTab: (tab: "novel" | "script") => void;
@@ -18,6 +20,15 @@ interface AppContextType extends AppState {
   restoreDraft: (draft: Draft) => void;
   setConverting: (v: boolean) => void;
   setActiveNav: (id: string) => void;
+}
+
+function getInitialTheme(): "light" | "dark" {
+  if (typeof window === "undefined") return "light";
+  try {
+    return (localStorage.getItem("scriptflow-theme") as "light" | "dark") || "light";
+  } catch {
+    return "light";
+  }
 }
 
 const AppContext = createContext<AppContextType | null>(null);
@@ -32,6 +43,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [converting, setConverting] = useState(false);
   const [activeNav, setActiveNav] = useState("project");
   const [drafts, setDrafts] = useState<Draft[]>([]);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    setTheme(getInitialTheme());
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+  }, [theme]);
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === "light" ? "dark" : "light";
+      try { localStorage.setItem("scriptflow-theme", next); } catch {}
+      return next;
+    });
+  }, []);
 
   const mode = chapters.length > 0 ? "editing" : "upload";
 
@@ -89,6 +117,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
         converting,
         activeNav,
         drafts,
+        theme,
+        toggleTheme,
         loadText,
         updateChapterContent,
         setEditorTab,
