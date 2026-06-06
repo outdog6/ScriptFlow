@@ -100,9 +100,9 @@ export default function OpenBook({ open, children }: Props) {
           </>
         )}
 
-        {/* Page content — positioned above backing layers */}
+        {/* Page content — locked size, no overflow */}
         {open && (
-          <div className="relative flex flex-1" style={{ zIndex: 0 }}>
+          <div className="relative flex flex-1 overflow-hidden" style={{ zIndex: 0 }}>
             {children}
           </div>
         )}

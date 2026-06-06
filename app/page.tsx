@@ -99,7 +99,7 @@ export default function Home() {
       {isEditing ? (
         <>
           {/* ===== LEFT PAGE: Editor content ===== */}
-          <div className="w-1/2 min-w-0 cine-page cine-page-texture flex flex-col rounded-l-md border-r border-[rgba(139,119,90,0.15)]">
+          <div className="flex-[0_0_50%] min-w-0 max-w-[50%] cine-page cine-page-texture flex flex-col rounded-l-md border-r border-[rgba(139,119,90,0.15)]">
             {/* Page header: title, author, tab toggle */}
             <div className="flex items-center justify-between px-6 py-3 border-b border-[rgba(139,119,90,0.12)]">
               <div className="flex items-center gap-3">
@@ -162,7 +162,7 @@ export default function Home() {
           </div>
 
           {/* ===== RIGHT PAGE: Preview content ===== */}
-          <div className="w-1/2 min-w-0 cine-page cine-page-texture flex flex-col rounded-r-md">
+          <div className="flex-[0_0_50%] min-w-0 max-w-[50%] cine-page cine-page-texture flex flex-col rounded-r-md">
             {!yaml && !script ? (
               <div className="flex items-center justify-center h-full">
                 <p className="text-[14px] text-[var(--cine-page-secondary)]">
