@@ -76,6 +76,9 @@ export default function Home() {
     <CinematicShell
       converting={converting}
       activeNav={activeNav}
+      yaml={yaml}
+      scriptTitle={title}
+      script={script}
       onNavigate={setActiveNav}
       onConvert={handleConvert}
     >

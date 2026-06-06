@@ -8,10 +8,15 @@ import DustParticles from "./DustParticles";
 import OpenBook from "./OpenBook";
 import SilkBookmarks from "./SilkBookmarks";
 import { useFirstVisit } from "@/lib/useFirstVisit";
+import { ScriptData } from "@/lib/types";
+import { exportFountain } from "@/lib/fountain-exporter";
 
 interface Props {
   converting: boolean;
   activeNav: string;
+  yaml: string;
+  scriptTitle: string;
+  script: ScriptData | null;
   onNavigate: (id: string) => void;
   onConvert: () => void;
   children: ReactNode;
@@ -20,6 +25,9 @@ interface Props {
 export default function CinematicShell({
   converting,
   activeNav,
+  yaml,
+  scriptTitle,
+  script,
   onNavigate,
   onConvert,
   children,
@@ -109,32 +117,73 @@ export default function CinematicShell({
       {/* Inkwell export button — bottom-right of desk */}
       {bookOpen && (
         <div className="absolute bottom-8 right-12 z-50">
-          <InkwellExport />
+          <InkwellExport yaml={yaml} scriptTitle={scriptTitle} script={script} />
         </div>
       )}
     </div>
   );
 }
 
-/* Small inkwell component for export metaphor */
-function InkwellExport() {
-  const [hover, setHover] = useState(false);
+/* Inkwell export component */
+function InkwellExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle: string; script: ScriptData | null }) {
+  const [open, setOpen] = useState(false);
+
+  const download = (content: string, ext: string, type: string) => {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${scriptTitle || "script"}.${ext}`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportYaml = () => {
+    const fixed = yaml.replace(/title:\s*".*?"/, `title: "${scriptTitle}"`);
+    download(fixed, "yaml", "text/yaml");
+    setOpen(false);
+  };
+
+  const handleExportFountain = () => {
+    if (!script) return;
+    download(exportFountain(script), "fountain", "text/plain");
+    setOpen(false);
+  };
+
+  if (!yaml && !script) return null;
 
   return (
-    <div
-      className="relative cursor-pointer group"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-    >
+    <div className="relative" onMouseLeave={() => setOpen(false)}>
+      {/* Dropdown menu */}
+      {open && (
+        <div className="absolute bottom-14 right-0 mb-2 bg-[#1a1816] border border-[rgba(255,255,255,0.08)] rounded-xl p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.6)] min-w-[140px]">
+          <button
+            onClick={handleExportYaml}
+            className="block w-full text-left px-3 py-2 text-[12px] text-[#d4cfc4] hover:bg-[rgba(255,255,255,0.06)] rounded-lg transition-colors"
+          >
+            导出 YAML
+          </button>
+          {script && (
+            <button
+              onClick={handleExportFountain}
+              className="block w-full text-left px-3 py-2 text-[12px] text-[#d4cfc4] hover:bg-[rgba(255,255,255,0.06)] rounded-lg transition-colors"
+            >
+              导出 Fountain
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Inkwell body */}
       <div
-        className="w-10 h-10 rounded-full transition-all duration-300 flex items-center justify-center"
+        className="w-10 h-10 rounded-full transition-all duration-300 flex items-center justify-center cursor-pointer"
+        onClick={() => setOpen(!open)}
         style={{
           background: "linear-gradient(135deg, #2a2420, #1a1612)",
-          boxShadow: hover
+          boxShadow: open
             ? "0 4px 16px rgba(0,0,0,0.5), 0 0 12px rgba(255,183,77,0.15)"
             : "0 2px 8px rgba(0,0,0,0.4)",
-          transform: hover ? "translateY(-2px)" : "none",
+          transform: open ? "translateY(-2px)" : "none",
         }}
       >
         {/* Ink surface */}
@@ -150,7 +199,7 @@ function InkwellExport() {
       {/* Label */}
       <div
         className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] whitespace-nowrap transition-all duration-200 ${
-          hover ? "opacity-100" : "opacity-0"
+          open ? "opacity-100" : "opacity-0"
         }`}
         style={{ color: "var(--apple-secondary)" }}
       >
