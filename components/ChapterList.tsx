@@ -10,7 +10,7 @@ interface Props {
 
 export default function ChapterList({ chapters, activeChapter, converting, onSelectChapter }: Props) {
   return (
-    <div>
+    <div className="flex-1 overflow-y-auto min-h-0">
       <p className="px-5 pt-4 pb-2 text-[11px] font-semibold text-[var(--apple-secondary)] uppercase tracking-wider">
         章节列表
       </p>
