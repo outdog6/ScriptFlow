@@ -10,7 +10,7 @@ export default function FountainView({ script }: Props) {
   const fountain = exportFountain(script);
 
   return (
-    <pre className="bg-[var(--apple-text)] rounded-xl p-5 font-mono text-[12px] leading-[1.8] text-[var(--apple-bg)] whitespace-pre-wrap overflow-x-auto">
+    <pre className="bg-[#1c1c1e] rounded-xl p-5 font-mono text-[12px] leading-[1.8] text-[#e5e5e7] whitespace-pre-wrap overflow-x-auto">
       {fountain}
     </pre>
   );
