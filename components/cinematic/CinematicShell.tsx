@@ -39,8 +39,9 @@ export default function CinematicShell({
   const [bookmarksVisible, setBookmarksVisible] = useState(!isFirstVisit);
   const [animating, setAnimating] = useState(false);
 
-  // Force cinematic dark mode
+  // Force cinematic dark mode — set localStorage so AppContext picks it up
   useEffect(() => {
+    try { localStorage.setItem("scriptflow-theme", "dark"); } catch {}
     document.documentElement.setAttribute("data-cinematic", "true");
     document.documentElement.classList.add("dark");
     return () => {

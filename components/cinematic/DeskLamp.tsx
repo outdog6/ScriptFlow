@@ -123,6 +123,9 @@ export default function DeskLamp({ lampOn, converting, onPullChain }: Props) {
           <line x1="225" y1="41" x2="225" y2="68" stroke="#8a8070" strokeWidth="1.5" />
           <ellipse cx="225" cy="56" rx="3" ry="5" fill="none" stroke="#8a8070" strokeWidth="1" />
 
+          {/* Invisible hit area for pull ring */}
+          <circle cx="225" cy="78" r="16" fill="transparent" />
+
           {/* Pull ring */}
           <circle
             cx="225"
