@@ -70,7 +70,10 @@ export default function Home() {
     }
   };
 
-  const isEditing = activeNav !== "project" && activeNav !== "drafts" && activeNav !== "exports";
+  // Show editor pages by default when empty (no projects, no chapters)
+  // so first-time visitors see the book, not an empty list
+  const isEmpty = projects.length === 0 && chapters.length === 0;
+  const isEditing = isEmpty || (activeNav !== "project" && activeNav !== "drafts" && activeNav !== "exports");
 
   return (
     <CinematicShell

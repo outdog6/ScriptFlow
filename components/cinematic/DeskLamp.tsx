@@ -9,11 +9,11 @@ interface Props {
 }
 
 const PALETTES = [
-  { bulb: "#ffb74d", beam: "rgba(255,183,77,0.10)", name: "golden-hour" },
-  { bulb: "#ff8a65", beam: "rgba(255,138,101,0.10)", name: "teal-orange" },
-  { bulb: "#90caf9", beam: "rgba(144,202,249,0.10)", name: "noir-blue" },
-  { bulb: "#ce93d8", beam: "rgba(206,147,216,0.10)", name: "neon-purple" },
-  { bulb: "#ffcc02", beam: "rgba(255,204,2,0.10)", name: "amber-warm" },
+  { bulb: "#ffb347", beam: "rgba(255,179,71,0.18)", name: "golden-hour" },
+  { bulb: "#ff8a65", beam: "rgba(255,138,101,0.16)", name: "teal-orange" },
+  { bulb: "#90caf9", beam: "rgba(144,202,249,0.14)", name: "noir-blue" },
+  { bulb: "#ce93d8", beam: "rgba(206,147,216,0.14)", name: "neon-purple" },
+  { bulb: "#ffcc02", beam: "rgba(255,204,2,0.18)", name: "amber-warm" },
 ];
 
 let paletteIndex = Math.floor(Math.random() * PALETTES.length);
@@ -29,7 +29,6 @@ export function cyclePalette() {
 
 export default function DeskLamp({ lampOn, converting, onPullChain }: Props) {
   const [pulling, setPulling] = useState(false);
-  const chainRef = useRef<SVGGElement>(null);
 
   const handlePull = useCallback(() => {
     if (pulling) return;
@@ -39,131 +38,156 @@ export default function DeskLamp({ lampOn, converting, onPullChain }: Props) {
   }, [pulling, onPullChain]);
 
   return (
-    <div className="absolute top-0 left-0 z-50" style={{ width: 280, height: 320 }}>
-      <svg
-        viewBox="0 0 280 320"
-        width="280"
-        height="320"
-        className="overflow-visible"
-      >
+    <div className="absolute top-0 left-0 z-50" style={{ width: 240, height: 280 }}>
+      <svg viewBox="0 0 240 280" width="240" height="280" className="overflow-visible">
         <defs>
-          <radialGradient id="bulbGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor={lampOn ? "var(--cine-bulb)" : "#3a3a3a"} stopOpacity={lampOn ? 1 : 0.3} />
-            <stop offset="60%" stopColor={lampOn ? "var(--cine-bulb)" : "#3a3a3a"} stopOpacity={lampOn ? 0.4 : 0.1} />
+          {/* Bulb glow gradient */}
+          <radialGradient id="cartoonBulbGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={lampOn ? "var(--cine-bulb)" : "#5a5040"} stopOpacity={lampOn ? 1 : 0.4} />
+            <stop offset="40%" stopColor={lampOn ? "var(--cine-bulb)" : "#5a5040"} stopOpacity={lampOn ? 0.5 : 0.1} />
             <stop offset="100%" stopColor="var(--cine-bulb)" stopOpacity={0} />
           </radialGradient>
-          <filter id="lampShadow">
-            <feDropShadow dx="0" dy="8" stdDeviation="16" floodColor="#000" floodOpacity="0.6" />
+
+          {/* Warm glow behind shade */}
+          <radialGradient id="cartoonInnerGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={lampOn ? "rgba(255,179,71,0.4)" : "rgba(80,70,50,0.1)"} />
+            <stop offset="100%" stopColor="rgba(255,179,71,0)" />
+          </radialGradient>
+
+          {/* Soft shadow for shade */}
+          <filter id="cartoonShadeShadow">
+            <feDropShadow dx="0" dy="4" stdDeviation="8" floodColor="#000" floodOpacity="0.4" />
           </filter>
-          <filter id="bulbBlur">
-            <feGaussianBlur stdDeviation="3" />
+
+          {/* Soft shadow for base */}
+          <filter id="cartoonBaseShadow">
+            <feDropShadow dx="0" dy="6" stdDeviation="12" floodColor="#000" floodOpacity="0.5" />
           </filter>
         </defs>
 
-        {/* Lamp base */}
-        <ellipse cx="70" cy="290" rx="50" ry="10" fill="#1c1814" filter="url(#lampShadow)" />
-        <ellipse cx="70" cy="286" rx="48" ry="8" fill="#2a2420" />
+        {/* === LAMP BASE === */}
+        {/* Base shadow */}
+        <ellipse cx="55" cy="265" rx="55" ry="12" fill="#000" opacity="0.3" filter="url(#cartoonBaseShadow)" />
+        {/* Base — cartoon rounded pill shape */}
+        <rect x="10" y="248" width="90" height="22" rx="11" ry="11" fill="#4a3a2a" stroke="#3a2a1a" strokeWidth="1.5" />
+        {/* Base highlight */}
+        <rect x="14" y="250" width="82" height="8" rx="4" ry="4" fill="rgba(255,255,255,0.06)" />
 
-        {/* Arm joint at base */}
-        <circle cx="70" cy="280" r="6" fill="#3a3430" />
+        {/* Joint circle */}
+        <circle cx="55" cy="248" r="8" fill="#5a4a3a" stroke="#3a2a1a" strokeWidth="1.5" />
 
-        {/* Lower arm */}
-        <line x1="70" y1="280" x2="160" y2="100" stroke="#3a3430" strokeWidth="5" strokeLinecap="round" />
+        {/* === LAMP ARM === */}
+        {/* Lower arm — cartoon thick line */}
+        <line x1="55" y1="245" x2="140" y2="80" stroke="#5a4a3a" strokeWidth="7" strokeLinecap="round" />
+        <line x1="55" y1="245" x2="140" y2="80" stroke="rgba(255,255,255,0.05)" strokeWidth="2" strokeLinecap="round" />
 
         {/* Upper arm */}
-        <line x1="160" y1="100" x2="190" y2="60" stroke="#3a3430" strokeWidth="4" strokeLinecap="round" />
+        <line x1="140" y1="80" x2="175" y2="52" stroke="#5a4a3a" strokeWidth="5" strokeLinecap="round" />
+        <line x1="140" y1="80" x2="175" y2="52" stroke="rgba(255,255,255,0.05)" strokeWidth="1.5" strokeLinecap="round" />
 
-        {/* Joint */}
-        <circle cx="160" cy="100" r="5" fill="#4a4440" />
+        {/* Elbow joint */}
+        <circle cx="140" cy="80" r="6" fill="#6a5a4a" stroke="#4a3a2a" strokeWidth="1.5" />
 
-        {/* Lamp shade */}
+        {/* === LAMP SHADE === */}
+        <g filter="url(#cartoonShadeShadow)">
+          {/* Shade body — cartoon trapezoid with rounded corners */}
+          <path
+            d="M 125 48 L 215 20 Q 220 18 218 24 L 228 52 Q 230 58 225 56 L 130 82 Q 124 84 125 78 Z"
+            fill="#5c4a38"
+            stroke="#3a2a1a"
+            strokeWidth="2"
+            strokeLinejoin="round"
+          />
+          {/* Shade highlight stripe */}
+          <path
+            d="M 133 52 L 212 26"
+            stroke="rgba(255,255,255,0.06)"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+        </g>
+
+        {/* Inner shade glow */}
         <path
-          d="M 140 65 L 230 30 L 240 55 L 145 95 Z"
-          fill="#2a2420"
-          stroke="#3a3430"
-          strokeWidth="1"
-        />
-
-        {/* Inner shade */}
-        <path
-          d="M 148 70 L 226 38 L 233 55 L 151 90 Z"
-          fill={lampOn ? "rgba(255,183,77,0.15)" : "#1a1612"}
+          d="M 130 55 L 210 30 L 218 52 L 133 76 Z"
+          fill={lampOn ? "rgba(255,179,71,0.2)" : "#3a2a1a"}
           className="transition-colors duration-500"
         />
 
-        {/* Bulb */}
+        {/* === BULB === */}
         <circle
-          cx="200"
-          cy="52"
-          r={lampOn ? 10 : 7}
-          fill={lampOn ? "var(--cine-bulb)" : "#3a3a3a"}
-          filter={lampOn ? "url(#bulbBlur)" : undefined}
+          cx="188"
+          cy="44"
+          r={lampOn ? 11 : 8}
+          fill={lampOn ? "var(--cine-bulb)" : "#4a4030"}
           className="transition-all duration-500"
         />
 
-        {/* Bulb glow aura */}
+        {/* Bulb glow aura (when on) */}
         {lampOn && (
-          <circle cx="200" cy="52" r="30" fill="url(#bulbGlow)" />
+          <circle cx="188" cy="44" r="35" fill="url(#cartoonBulbGlow)" />
         )}
 
-        {/* Chain hanging point */}
-        <circle cx="225" cy="38" r="3" fill="#5a5450" />
-
-        {/* Chain */}
+        {/* === CHAIN === */}
         <g
-          ref={chainRef}
           style={{
-            transform: pulling ? "translateY(12px)" : "translateY(0)",
-            transition: "transform 0.15s ease-in, transform 0.4s ease-out 0.15s",
+            transform: pulling ? "translateY(14px)" : "translateY(0)",
+            transition: "transform 0.12s ease-in, transform 0.35s ease-out 0.12s",
             cursor: "pointer",
           }}
           onClick={handlePull}
         >
-          {/* Chain links */}
-          <line x1="225" y1="41" x2="225" y2="68" stroke="#8a8070" strokeWidth="1.5" />
-          <ellipse cx="225" cy="56" rx="3" ry="5" fill="none" stroke="#8a8070" strokeWidth="1" />
+          {/* Chain hanger circle */}
+          <circle cx="215" cy="24" r="3" fill="#6a5a4a" stroke="#4a3a2a" strokeWidth="1" />
 
-          {/* Invisible hit area for pull ring */}
-          <circle cx="225" cy="78" r="16" fill="transparent" />
+          {/* Chain vertical line */}
+          <line x1="215" y1="27" x2="215" y2="58" stroke="#8a7a6a" strokeWidth="2" strokeDasharray="3 2" />
 
-          {/* Pull ring */}
+          {/* Chain link */}
+          <ellipse cx="215" cy="45" rx="4" ry="7" fill="none" stroke="#8a7a6a" strokeWidth="1.5" />
+
+          {/* PULL RING — cartoon style */}
+          {/* Invisible hit area */}
+          <circle cx="215" cy="72" r="18" fill="transparent" />
+
+          {/* Ring outer */}
           <circle
-            cx="225"
-            cy="78"
-            r="10"
+            cx="215"
+            cy="72"
+            r="12"
             fill="none"
-            stroke="#b0a890"
-            strokeWidth="2"
+            stroke={lampOn ? "#d4b870" : "#9b8b6e"}
+            strokeWidth="2.5"
             className="transition-colors duration-300"
             style={{
               filter: lampOn
-                ? "drop-shadow(0 0 4px rgba(255,183,77,0.4))"
-                : "drop-shadow(0 0 2px rgba(180,160,130,0.2))",
+                ? "drop-shadow(0 0 5px rgba(255,179,71,0.5))"
+                : "drop-shadow(0 0 2px rgba(150,130,100,0.3))",
             }}
           />
 
-          {/* Ring highlight */}
-          <circle cx="225" cy="78" r="9" fill="none" stroke="#d4c8a0" strokeWidth="0.5" opacity={0.5} />
+          {/* Ring inner highlight */}
+          <circle cx="215" cy="72" r="10.5" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5" />
 
-          {/* Converting spinner ring */}
+          {/* Converting spinner */}
           {converting && (
             <circle
-              cx="225"
-              cy="78"
-              r="14"
+              cx="215"
+              cy="72"
+              r="16"
               fill="none"
               stroke="var(--cine-bulb)"
-              strokeWidth="1.5"
-              strokeDasharray="20 60"
+              strokeWidth="2"
+              strokeDasharray="18 50"
               className="animate-spin"
-              style={{ transformOrigin: "225px 78px" }}
+              style={{ transformOrigin: "215px 72px" }}
             />
           )}
         </g>
 
-        {/* Chain hover hint */}
+        {/* Hint text */}
         {!lampOn && (
-          <text x="225" y="105" textAnchor="middle" fill="#6b5e4e" fontSize="9" fontFamily="sans-serif" opacity={0.7}>
+          <text x="215" y="100" textAnchor="middle" fill="#8b7355" fontSize="9" fontFamily="sans-serif" opacity={0.8}>
             拉我
           </text>
         )}

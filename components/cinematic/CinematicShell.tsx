@@ -115,6 +115,22 @@ export default function CinematicShell({
         {children}
       </OpenBook>
 
+      {/* Vignette overlay — darkens edges, draws focus to book */}
+      <div
+        className="pointer-events-none absolute inset-0 z-40"
+        style={{
+          background: `
+            radial-gradient(
+              ellipse at 50% 50%,
+              transparent 35%,
+              rgba(0, 0, 0, 0.15) 55%,
+              rgba(0, 0, 0, 0.4) 80%,
+              rgba(0, 0, 0, 0.6) 100%
+            )
+          `,
+        }}
+      />
+
       {/* Inkwell export button — bottom-right of desk */}
       {bookOpen && (
         <div className="absolute bottom-8 right-12 z-50">

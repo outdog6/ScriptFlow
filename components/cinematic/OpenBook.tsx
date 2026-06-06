@@ -9,69 +9,95 @@ interface Props {
 
 export default function OpenBook({ open, children }: Props) {
   return (
-    <div className="flex items-center justify-center flex-1 px-8 py-10 cine-desk">
+    <div className="flex items-center justify-center flex-1 px-8 py-12 cine-desk relative">
+      {/* Desk light pool — the circle of light on the desk */}
+      <div
+        className="absolute rounded-[50%] pointer-events-none"
+        style={{
+          top: "15%",
+          left: "15%",
+          width: "70%",
+          height: "75%",
+          background: `
+            radial-gradient(
+              ellipse at 35% 15%,
+              rgba(255, 179, 71, 0.08) 0%,
+              rgba(255, 150, 50, 0.03) 50%,
+              transparent 75%
+            )
+          `,
+          opacity: open ? 1 : 0,
+          transition: "opacity 1.2s ease-out",
+        }}
+      />
+
       {/* Book container */}
       <div
-        className="relative flex transition-all duration-[1200ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+        className="relative flex cine-book-shadow rounded-lg"
         style={{
           width: "92%",
-          maxWidth: 1200,
-          minHeight: 640,
+          maxWidth: 1100,
+          minHeight: 560,
+          transition: "all 1s cubic-bezier(0.34, 1.3, 0.64, 1)",
           ...(open
             ? {
                 transform: "rotateX(0deg) scale(1)",
                 opacity: 1,
-                filter: "drop-shadow(0 20px 60px rgba(0,0,0,0.7)) drop-shadow(0 4px 12px rgba(0,0,0,0.4))",
               }
             : {
-                transform: "rotateX(15deg) scale(0.92)",
+                transform: "rotateX(12deg) scale(0.94)",
                 opacity: 0,
-                filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.3))",
               }),
         }}
       >
-        {/* Book spine shadow (center crease) */}
+        {/* Book cover backing — visible behind pages */}
+        <div
+          className="absolute -inset-2 rounded-lg"
+          style={{
+            background: "linear-gradient(135deg, #5c3d2e 0%, #4a3020 40%, #3d2518 100%)",
+            borderRadius: "10px 12px 12px 10px",
+          }}
+        />
+
+        {/* Page stack — creates thickness illusion */}
+        <div className="absolute inset-0 rounded-r-md" style={{ background: "#e6d9c0", transform: "translateX(3px) translateY(2px)" }} />
+        <div className="absolute inset-0 rounded-r-md" style={{ background: "#ece2cc", transform: "translateX(1.5px) translateY(1px)" }} />
+
+        {/* Spine shadow gradient — left page */}
         {open && (
           <>
-            {/* Left page shadow on spine */}
             <div
               className="absolute top-0 bottom-0 z-10 pointer-events-none"
               style={{
                 left: "50%",
-                width: 30,
+                width: 24,
                 transform: "translateX(-100%)",
-                background: "linear-gradient(to right, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.03) 100%)",
+                background: "linear-gradient(to right, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.02) 100%)",
               }}
             />
-            {/* Right page shadow on spine */}
+            {/* Spine shadow — right page (deeper) */}
             <div
               className="absolute top-0 bottom-0 z-10 pointer-events-none"
               style={{
                 left: "50%",
-                width: 30,
-                background: "linear-gradient(to left, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.04) 100%)",
+                width: 28,
+                background: "linear-gradient(to left, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.03) 100%)",
               }}
             />
-            {/* Spine crease line */}
+            {/* Spine crease */}
             <div
               className="absolute top-0 bottom-0 z-10 pointer-events-none"
               style={{
                 left: "calc(50% - 0.5px)",
                 width: 1,
-                background: "rgba(0,0,0,0.12)",
+                background: "rgba(0,0,0,0.08)",
               }}
             />
           </>
         )}
 
-        {/* Book shadow underneath */}
-        <div
-          className="absolute -bottom-4 left-2 right-2 h-8 rounded-full bg-black/40 blur-md transition-opacity duration-1000"
-          style={{ opacity: open ? 1 : 0 }}
-        />
-
-        {/* Children are the two pages */}
-        {children}
+        {/* Page content */}
+        {open && children}
       </div>
     </div>
   );

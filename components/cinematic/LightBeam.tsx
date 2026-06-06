@@ -8,59 +8,79 @@ interface Props {
 export default function LightBeam({ visible }: Props) {
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-40 transition-opacity duration-1000"
-      style={{ opacity: visible ? 1 : 0 }}
+      className="pointer-events-none fixed inset-0 z-30"
+      style={{
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.8s ease-out",
+      }}
     >
-      {/* Main beam — large polygon from lamp to book */}
-      <div
+      {/* Main light cone from lamp to book */}
+      <svg
         className="absolute"
-        style={{
-          top: 52,
-          left: 200,
-          width: 0,
-          height: 0,
-          filter: "blur(2px)",
-        }}
+        width="100%"
+        height="100%"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="none"
+        style={{ top: 0, left: 0 }}
       >
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 700,
-            height: 600,
-            background: `
-              linear-gradient(
-                160deg,
-                var(--cine-beam) 0%,
-                rgba(255, 183, 77, 0.04) 30%,
-                rgba(255, 183, 77, 0.01) 60%,
-                transparent 100%
-              )
-            `,
-            clipPath: "polygon(0% 0%, 100% 5%, 95% 100%, 5% 95%)",
-            mixBlendMode: "screen",
-          }}
-        />
-      </div>
+        <defs>
+          <linearGradient id="beamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255,179,71,0.35)" />
+            <stop offset="30%" stopColor="rgba(255,179,71,0.15)" />
+            <stop offset="60%" stopColor="rgba(255,160,50,0.05)" />
+            <stop offset="100%" stopColor="rgba(255,140,30,0)" />
+          </linearGradient>
+          <filter id="beamBlur">
+            <feGaussianBlur stdDeviation="30" />
+          </filter>
+        </defs>
 
-      {/* Secondary warm glow — wider, softer */}
+        {/* Main beam polygon */}
+        <polygon
+          points="200,50 900,50 1100,800 100,700"
+          fill="url(#beamGrad)"
+          filter="url(#beamBlur)"
+          opacity={0.7}
+        />
+
+        {/* Inner sharper beam */}
+        <polygon
+          points="200,50 500,50 700,650 150,600"
+          fill="rgba(255,200,100,0.08)"
+          filter="url(#beamBlur)"
+        />
+      </svg>
+
+      {/* Warm glow on the book area */}
       <div
         className="absolute"
         style={{
-          top: -100,
-          left: -100,
-          width: 600,
-          height: 600,
+          top: "35%",
+          left: "25%",
+          width: "55%",
+          height: "50%",
           background: `
             radial-gradient(
-              ellipse at 200px 150px,
-              rgba(255, 183, 77, 0.06) 0%,
-              rgba(255, 183, 77, 0.02) 40%,
+              ellipse at 40% 20%,
+              rgba(255, 179, 71, 0.12) 0%,
+              rgba(255, 160, 60, 0.04) 40%,
               transparent 70%
             )
           `,
-          mixBlendMode: "screen",
+          borderRadius: "50%",
+        }}
+      />
+
+      {/* Warm ambient glow around lamp */}
+      <div
+        className="absolute rounded-full"
+        style={{
+          top: -60,
+          left: 80,
+          width: 360,
+          height: 360,
+          background: "radial-gradient(circle, rgba(255,179,71,0.25) 0%, rgba(255,160,50,0.06) 50%, transparent 70%)",
+          filter: "blur(2px)",
         }}
       />
     </div>
