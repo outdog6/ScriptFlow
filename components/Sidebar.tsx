@@ -59,7 +59,7 @@ function Sidebar({
         <ProjectNav activeItem={activeNav} onNavigate={onNavigate} />
       </div>
 
-      {chapters.length > 0 && (
+      {activeNav !== "project" && chapters.length > 0 && (
         <ChapterList
           chapters={chapters}
           activeChapter={activeChapter}
