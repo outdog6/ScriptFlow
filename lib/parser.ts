@@ -18,7 +18,7 @@ export function parseChapters(text: string): NovelChapter[] {
   for (const pattern of patterns) {
     pattern.lastIndex = 0;
     const matches = Array.from(sample.matchAll(pattern));
-    if (matches.length >= 3) {
+    if (matches.length >= 1) {
       const chapters: NovelChapter[] = [];
       for (let i = 0; i < matches.length; i++) {
         const start = matches[i].index!;

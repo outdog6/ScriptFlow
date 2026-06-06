@@ -14,9 +14,9 @@ export async function POST(request: NextRequest) {
       chapters: NovelChapter[];
     };
 
-    if (!chapters || chapters.length < 3) {
+    if (!chapters || chapters.length < 1) {
       return NextResponse.json(
-        { error: "需要至少 3 个章节" },
+        { error: "未检测到章节内容" },
         { status: 400 }
       );
     }

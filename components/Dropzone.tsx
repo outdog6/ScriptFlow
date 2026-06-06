@@ -4,9 +4,10 @@ import { Upload, ClipboardPaste, Loader2 } from "lucide-react";
 
 interface Props {
   onTextLoaded: (text: string) => void;
+  hasContent?: boolean;
 }
 
-export default function Dropzone({ onTextLoaded }: Props) {
+export default function Dropzone({ onTextLoaded, hasContent }: Props) {
   const [dragging, setDragging] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -90,7 +91,7 @@ export default function Dropzone({ onTextLoaded }: Props) {
             className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-[rgba(0,0,0,0.15)] bg-white text-[13px] font-medium text-[#1d1d1f] hover:bg-[#f5f5f7] transition-all"
           >
             <ClipboardPaste className="w-4 h-4" strokeWidth={1.5} />
-            从剪贴板粘贴
+            {hasContent ? "追加粘贴" : "从剪贴板粘贴"}
           </button>
         </>
       )}
