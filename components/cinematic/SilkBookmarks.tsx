@@ -9,47 +9,17 @@ interface Props {
 }
 
 const RIBBONS = [
-  {
-    id: "edit",
-    label: "章节",
-    color: "var(--cine-ribbon-gold)",
-    tailColor: "#e6b84d",
-    offset: 0,
-    swayDelay: 0,
-  },
-  {
-    id: "drafts",
-    label: "草稿",
-    color: "var(--cine-ribbon-blue)",
-    tailColor: "#7baed4",
-    offset: 32,
-    swayDelay: 0.3,
-  },
-  {
-    id: "project",
-    label: "项目",
-    color: "var(--cine-ribbon-green)",
-    tailColor: "#7db886",
-    offset: 64,
-    swayDelay: 0.6,
-  },
-  {
-    id: "exports",
-    label: "导出",
-    color: "var(--cine-ribbon-silver)",
-    tailColor: "#a0a0a0",
-    offset: 96,
-    swayDelay: 0.9,
-  },
+  { id: "edit",    label: "章节", color: "var(--cine-ribbon-gold)",   tailColor: "#e6b84d" },
+  { id: "drafts",  label: "草稿", color: "var(--cine-ribbon-blue)",   tailColor: "#7baed4" },
+  { id: "project", label: "项目", color: "var(--cine-ribbon-green)",  tailColor: "#7db886" },
+  { id: "exports", label: "导出", color: "var(--cine-ribbon-silver)", tailColor: "#a0a0a0" },
 ];
 
 export default function SilkBookmarks({ activeNav, onNavigate, visible }: Props) {
   return (
     <div
-      className="absolute -top-3 z-20 pointer-events-none"
+      className="absolute top-0 right-0 z-10 pointer-events-none"
       style={{
-        left: "50%",
-        transform: "translateX(-50%)",
         opacity: visible ? 1 : 0,
         transition: "opacity 0.5s ease-out",
       }}
@@ -67,13 +37,13 @@ export default function SilkBookmarks({ activeNav, onNavigate, visible }: Props)
             key={ribbon.id}
             className="absolute pointer-events-auto"
             style={{
-              top: 0,
-              left: -64 + ribbon.offset,
+              top: -8,
+              right: i * 26,
               transition: "all 0.4s cubic-bezier(0.34, 1.4, 0.64, 1)",
-              transitionDelay: `${visible ? i * 0.08 : 0}s`,
+              transitionDelay: `${visible ? i * 0.06 : 0}s`,
               transform: visible
                 ? "translateY(0) scale(1)"
-                : "translateY(-18px) scale(0.9)",
+                : "translateY(-12px) scale(0.9)",
               opacity: visible ? 1 : 0,
             }}
           >
