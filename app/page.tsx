@@ -11,6 +11,7 @@ import FountainView from "@/components/FountainView";
 import DraftsView from "@/components/DraftsView";
 import ProjectsView from "@/components/ProjectsView";
 import CinematicShell from "@/components/cinematic/CinematicShell";
+import { NON_EDITOR_NAV } from "@/components/cinematic/SilkBookmarks";
 
 export default function Home() {
   const {
@@ -81,10 +82,9 @@ export default function Home() {
 
   // Show editor by default when empty (better first impression than empty list)
   // But if user explicitly clicked a bookmark, respect their choice
+  const isListNav = (NON_EDITOR_NAV as readonly string[]).includes(activeNav);
   const isEmpty = projects.length === 0 && chapters.length === 0;
-  const isEditing = userNavigated
-    ? (activeNav !== "project" && activeNav !== "drafts" && activeNav !== "exports")
-    : (isEmpty || (activeNav !== "project" && activeNav !== "drafts" && activeNav !== "exports"));
+  const isEditing = userNavigated ? !isListNav : (isEmpty || !isListNav);
 
   return (
     <CinematicShell

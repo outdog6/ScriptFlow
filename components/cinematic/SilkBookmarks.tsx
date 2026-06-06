@@ -1,6 +1,6 @@
 // components/cinematic/SilkBookmarks.tsx
 "use client";
-import { BookOpen, FileText, Download } from "lucide-react";
+export const NON_EDITOR_NAV = ["project", "drafts", "exports"] as const;
 
 interface Props {
   activeNav: string;
@@ -12,7 +12,6 @@ const RIBBONS = [
   { id: "edit",    label: "章节", color: "var(--cine-ribbon-gold)",   tailColor: "#e6b84d" },
   { id: "drafts",  label: "草稿", color: "var(--cine-ribbon-blue)",   tailColor: "#7baed4" },
   { id: "project", label: "项目", color: "var(--cine-ribbon-green)",  tailColor: "#7db886" },
-  { id: "exports", label: "导出", color: "var(--cine-ribbon-silver)", tailColor: "#a0a0a0" },
 ];
 
 export default function SilkBookmarks({ activeNav, onNavigate, visible }: Props) {
@@ -27,10 +26,7 @@ export default function SilkBookmarks({ activeNav, onNavigate, visible }: Props)
       {RIBBONS.map((ribbon, i) => {
         const isActive =
           activeNav === ribbon.id ||
-          (ribbon.id === "edit" &&
-            activeNav !== "project" &&
-            activeNav !== "drafts" &&
-            activeNav !== "exports");
+          (ribbon.id === "edit" && !(NON_EDITOR_NAV as readonly string[]).includes(activeNav));
 
         return (
           <div

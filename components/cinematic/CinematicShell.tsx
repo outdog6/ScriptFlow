@@ -56,6 +56,7 @@ export default function CinematicShell({
     document.documentElement.classList.add("dark");
     return () => {
       document.documentElement.removeAttribute("data-cinematic");
+      document.documentElement.classList.remove("dark");
     };
   }, []);
 
@@ -65,16 +66,7 @@ export default function CinematicShell({
     // If lamp is off, turn it on (full ritual for first-timers, quick for repeats)
     if (!lampOn) {
       setAnimating(true);
-      const tl = gsap.timeline({
-        onComplete: () => {
-          setAnimating(false);
-          if (isFirstVisit) {
-            setBeamVisible(true);
-            setBookOpen(true);
-            setBookmarksVisible(true);
-          }
-        },
-      });
+      const tl = gsap.timeline();
 
       if (isFirstVisit) {
         // Full ritual
@@ -97,6 +89,7 @@ export default function CinematicShell({
             setBookmarksVisible(true);
           });
       }
+      tl.eventCallback("onComplete", () => setAnimating(false));
       return;
     }
 
@@ -163,7 +156,7 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
 
   const hasContent = !!(yaml || script);
 
-  const download = (content: string, ext: string, type: string) => {
+  const download = useCallback((content: string, ext: string, type: string) => {
     const blob = new Blob([content], { type });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -171,7 +164,7 @@ function QuillExport({ yaml, scriptTitle, script }: { yaml: string; scriptTitle:
     a.download = `${scriptTitle || "script"}.${ext}`;
     a.click();
     URL.revokeObjectURL(url);
-  };
+  }, [scriptTitle]);
 
   const triggerExport = useCallback((format: "yaml" | "fountain") => {
     if (writing) return;

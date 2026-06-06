@@ -40,7 +40,7 @@ export default function DustParticles({ visible }: Props) {
 
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-35"
+      className="pointer-events-none fixed inset-0 z-[35]"
       style={{
         opacity: visible ? 1 : 0,
         transition: "opacity 1.5s ease-out",
