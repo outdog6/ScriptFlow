@@ -33,11 +33,21 @@ export default function CinematicShell({
   children,
 }: Props) {
   const isFirstVisit = useFirstVisit();
-  const [lampOn, setLampOn] = useState(!isFirstVisit);
-  const [bookOpen, setBookOpen] = useState(!isFirstVisit);
-  const [beamVisible, setBeamVisible] = useState(!isFirstVisit);
-  const [bookmarksVisible, setBookmarksVisible] = useState(!isFirstVisit);
+  const [lampOn, setLampOn] = useState(false);
+  const [bookOpen, setBookOpen] = useState(false);
+  const [beamVisible, setBeamVisible] = useState(false);
+  const [bookmarksVisible, setBookmarksVisible] = useState(false);
   const [animating, setAnimating] = useState(false);
+
+  // Sync state once useFirstVisit resolves (client-side only)
+  useEffect(() => {
+    if (!isFirstVisit) {
+      setLampOn(true);
+      setBookOpen(true);
+      setBeamVisible(true);
+      setBookmarksVisible(true);
+    }
+  }, [isFirstVisit]);
 
   // Force cinematic dark mode — set localStorage so AppContext picks it up
   useEffect(() => {
