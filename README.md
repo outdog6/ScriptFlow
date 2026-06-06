@@ -31,8 +31,7 @@
 npm install
 
 # 2. 配置 API Key
-# 编辑 .env.local，填入 DeepSeek API Key：
-#   DEEPSEEK_API_KEY=sk-xxxx
+# 将 .env.example 重命名为 .env.local，填入你的 DeepSeek API Key
 
 # 3. 启动开发服务器
 npm run dev
