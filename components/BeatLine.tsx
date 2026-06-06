@@ -22,12 +22,12 @@ export default function BeatLine({ beat, characterName }: Props) {
           {characterName ? characterName(d.character) : d.character}
         </span>
         {d.parenthetical && (
-          <span className="text-[#86868b] text-sm">{"(" + d.parenthetical + ")"}</span>
+          <span className="text-[#636366] text-sm">{"(" + d.parenthetical + ")"}</span>
         )}
         <span className="ml-1">{d.line}</span>
       </p>
       {d.subtext && (
-        <p className="text-xs text-[#aeaeb2] mt-0.5 ml-1 italic">
+        <p className="text-xs text-[#787880] mt-0.5 ml-1 italic">
           {'// ' + d.subtext}
         </p>
       )}

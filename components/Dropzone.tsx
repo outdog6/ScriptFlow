@@ -64,7 +64,7 @@ export default function Dropzone({ onTextLoaded }: Props) {
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-10 h-10 text-[#0071e3] animate-spin" strokeWidth={1.5} />
           <p className="text-[15px] font-medium text-[#1d1d1f]">正在解析文件...</p>
-          <p className="text-[12px] text-[#86868b]">大文件可能需要几秒</p>
+          <p className="text-[12px] text-[#636366]">大文件可能需要几秒</p>
         </div>
       ) : (
         <>
@@ -78,12 +78,12 @@ export default function Dropzone({ onTextLoaded }: Props) {
                 : "border-[rgba(0,0,0,0.15)] hover:border-[#0071e3] hover:bg-[rgba(0,113,227,0.03)]"
             }`}
           >
-            <Upload className="w-10 h-10 text-[#86868b]" strokeWidth={1.5} />
+            <Upload className="w-10 h-10 text-[#636366]" strokeWidth={1.5} />
             <p className="text-[15px] font-medium text-[#1d1d1f]">拖拽小说文件到此处</p>
-            <p className="text-[12px] text-[#86868b]">支持 .txt 文件，UTF-8 编码</p>
+            <p className="text-[12px] text-[#636366]">支持 .txt 文件，UTF-8 编码</p>
           </div>
 
-          <span className="text-[13px] text-[#86868b]">或</span>
+          <span className="text-[13px] text-[#636366]">或</span>
 
           <button
             onClick={handlePaste}

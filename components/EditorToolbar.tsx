@@ -23,7 +23,7 @@ export default function EditorToolbar({
             className={`px-4 py-1.5 text-[13px] font-medium rounded-md transition-all ${
               editorTab === tab
                 ? "bg-white text-[#1d1d1f] shadow-[0_1px_3px_rgba(0,0,0,0.08)]"
-                : "text-[#86868b] hover:text-[#1d1d1f]"
+                : "text-[#636366] hover:text-[#1d1d1f]"
             }`}
           >
             {tab === "novel" ? "原文" : "剧本"}

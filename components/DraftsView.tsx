@@ -11,7 +11,7 @@ interface Props {
 export default function DraftsView({ drafts, onRestore, onDelete }: Props) {
   if (drafts.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center flex-1 gap-3 text-[#86868b]">
+      <div className="flex flex-col items-center justify-center flex-1 gap-3 text-[#636366]">
         <Eye className="w-10 h-10" strokeWidth={1.5} />
         <p className="text-[15px] font-medium text-[#1d1d1f]">暂无草稿</p>
         <p className="text-[13px]">转换剧本后将自动保存到这里</p>
@@ -31,7 +31,7 @@ export default function DraftsView({ drafts, onRestore, onDelete }: Props) {
               <h3 className="text-[15px] font-semibold text-[#1d1d1f] truncate">
                 {draft.title}
               </h3>
-              <p className="text-[12px] text-[#86868b] mt-0.5">
+              <p className="text-[12px] text-[#636366] mt-0.5">
                 {draft.createdAt} · {draft.chapterCount} 章
               </p>
             </div>
@@ -44,7 +44,7 @@ export default function DraftsView({ drafts, onRestore, onDelete }: Props) {
               </button>
               <button
                 onClick={() => onDelete(draft.id)}
-                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[rgba(255,59,48,0.08)] transition-all text-[#86868b] hover:text-[#ff3b30]"
+                className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[rgba(255,59,48,0.08)] transition-all text-[#636366] hover:text-[#ff3b30]"
               >
                 <Trash2 className="w-4 h-4" strokeWidth={1.5} />
               </button>

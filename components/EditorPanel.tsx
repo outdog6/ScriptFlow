@@ -51,7 +51,7 @@ export default function EditorPanel({
         ) : script ? (
           <ScriptView script={script} />
         ) : (
-          <div className="flex items-center justify-center h-full text-[#86868b] text-[14px]">
+          <div className="flex items-center justify-center h-full text-[#636366] text-[14px]">
             点击右上角「AI 转换」生成剧本
           </div>
         )}

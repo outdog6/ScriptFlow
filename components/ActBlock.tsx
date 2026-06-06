@@ -15,11 +15,11 @@ export default function ActBlock({ act, characterName }: Props) {
           第 {act.act} 幕
         </span>
       </div>
-      <h2 className="text-[28px] font-bold tracking-[-0.5px] text-[#1d1d1f] mb-1">
+      <h2 className="text-[28px] font-bold tracking-[-0.5px] text-[#1d1d1f] mb-1 [text-wrap:balance]">
         {act.title}
       </h2>
       {act.summary && (
-        <p className="text-[14px] text-[#86868b] mb-6">{act.summary}</p>
+        <p className="text-[14px] text-[#636366] mb-6">{act.summary}</p>
       )}
 
       <div>

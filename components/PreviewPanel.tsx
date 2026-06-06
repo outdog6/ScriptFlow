@@ -22,7 +22,7 @@ export default function PreviewPanel({ yaml, script, previewTab, onTabChange }: 
   if (!yaml && !script) {
     return (
       <div className="w-[360px] bg-white border-l border-[rgba(0,0,0,0.08)] flex items-center justify-center">
-        <p className="text-[14px] text-[#86868b]">生成剧本后将在此预览</p>
+        <p className="text-[14px] text-[#636366]">生成剧本后将在此预览</p>
       </div>
     );
   }
@@ -38,7 +38,7 @@ export default function PreviewPanel({ yaml, script, previewTab, onTabChange }: 
               className={`text-[12px] pb-2 -mb-[1px] font-medium transition-all ${
                 previewTab === tab
                   ? "text-[#0071e3] border-b-2 border-[#0071e3]"
-                  : "text-[#86868b] hover:text-[#1d1d1f]"
+                  : "text-[#636366] hover:text-[#1d1d1f]"
               }`}
             >
               {tab === "yaml" ? "YAML" : "Fountain"}
@@ -47,7 +47,7 @@ export default function PreviewPanel({ yaml, script, previewTab, onTabChange }: 
         </div>
         <button
           onClick={handleCopy}
-          className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[rgba(0,0,0,0.04)] transition-all text-[#86868b]"
+          className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[rgba(0,0,0,0.04)] transition-all text-[#636366]"
           title="复制"
         >
           <Copy className="w-4 h-4" strokeWidth={1.5} />

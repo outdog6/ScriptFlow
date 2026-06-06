@@ -11,7 +11,7 @@ interface Props {
 export default function ChapterList({ chapters, activeChapter, converting, onSelectChapter }: Props) {
   return (
     <div>
-      <p className="px-5 pt-4 pb-2 text-[11px] font-semibold text-[#86868b] uppercase tracking-wider">
+      <p className="px-5 pt-4 pb-2 text-[11px] font-semibold text-[#636366] uppercase tracking-wider">
         章节列表
       </p>
       <div className="px-2">
@@ -30,7 +30,7 @@ export default function ChapterList({ chapters, activeChapter, converting, onSel
             >
               <span
                 className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${
-                  isConverting ? "bg-[#ff9f0a] animate-pulse" : isActive ? "bg-[#0071e3]" : "bg-[#86868b]"
+                  isConverting ? "bg-[#ff9f0a] animate-pulse" : isActive ? "bg-[#0071e3]" : "bg-[#636366]"
                 }`}
               />
               <span className="truncate text-left">{ch.title}</span>
