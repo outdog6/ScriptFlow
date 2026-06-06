@@ -125,25 +125,25 @@ export default function CinematicShell({
         {children}
       </OpenBook>
 
-      {/* Vignette overlay — darkens edges, draws focus to book */}
+      {/* Vignette overlay — subtle desk edge shadow */}
       <div
         className="pointer-events-none absolute inset-0 z-40"
         style={{
           background: `
             radial-gradient(
               ellipse at 50% 50%,
-              transparent 35%,
-              rgba(0, 0, 0, 0.15) 55%,
-              rgba(0, 0, 0, 0.4) 80%,
-              rgba(0, 0, 0, 0.6) 100%
+              transparent 45%,
+              rgba(0, 0, 0, 0.08) 65%,
+              rgba(0, 0, 0, 0.2) 85%,
+              rgba(0, 0, 0, 0.35) 100%
             )
           `,
         }}
       />
 
-      {/* Quill & Inkwell — right side of desk */}
+      {/* Quill & Inkwell — right side of desk, vertically centered */}
       {bookOpen && (
-        <div className="absolute bottom-12 right-16 z-50">
+        <div className="absolute top-1/2 -translate-y-1/2 right-12 z-50">
           <QuillExport yaml={yaml} scriptTitle={scriptTitle} script={script} />
         </div>
       )}

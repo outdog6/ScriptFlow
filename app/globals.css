@@ -61,8 +61,8 @@ body {
    ============================================ */
 
 html[data-cinematic] {
-  --cine-bg: #1a1410;
-  --cine-desk: #221b14;
+  --cine-bg: #2c1810;
+  --cine-desk: #3d2818;
   --cine-book-cover: #5c3d2e;
   --cine-book-spine: #4a3020;
   --cine-book-page: #f5edd9;
@@ -110,16 +110,44 @@ html[data-cinematic].dark {
   background: rgba(139, 115, 85, 0.3);
 }
 
-/* Desk surface — warm wood, light pool from lamp */
+/* Desk surface — warm wooden table, fills entire screen */
 .cine-desk {
   background:
-    radial-gradient(ellipse at 30% 20%, #3a2a18 0%, #1a1410 60%);
+    /* Wood grain horizontal lines */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.03) 3px,
+      rgba(0,0,0,0.03) 4px
+    ),
+    /* Wood grain vertical variation */
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(0,0,0,0.02) 60px,
+      rgba(0,0,0,0.02) 62px
+    ),
+    /* Base wood color */
+    linear-gradient(
+      180deg,
+      #5a3828 0%,
+      #4d2d1e 30%,
+      #543522 60%,
+      #4a2a18 100%
+    );
 }
 
-/* Vignette — darken edges, brighten center (where book is) */
+/* Vignette — lighter, just frames the desk edges */
 .cine-vignette {
   background:
-    radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.35) 100%);
+    radial-gradient(
+      ellipse at 50% 50%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.1) 65%,
+      rgba(0, 0, 0, 0.25) 100%
+    );
 }
 
 /* Page paper texture — subtle ruled lines */

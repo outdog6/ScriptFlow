@@ -10,20 +10,21 @@ interface Props {
 export default function OpenBook({ open, children }: Props) {
   return (
     <div className="flex items-center justify-center flex-1 px-8 py-12 cine-desk relative">
-      {/* Desk light pool — the circle of light on the desk */}
+      {/* Desk light pool — warm lamp glow on the wooden desk */}
       <div
-        className="absolute rounded-[50%] pointer-events-none"
+        className="absolute pointer-events-none"
         style={{
-          top: "15%",
-          left: "15%",
-          width: "70%",
-          height: "75%",
+          top: "-10%",
+          left: "-5%",
+          width: "90%",
+          height: "100%",
           background: `
             radial-gradient(
-              ellipse at 35% 15%,
-              rgba(255, 179, 71, 0.08) 0%,
-              rgba(255, 150, 50, 0.03) 50%,
-              transparent 75%
+              ellipse at 25% 15%,
+              rgba(255, 190, 80, 0.12) 0%,
+              rgba(255, 160, 50, 0.05) 35%,
+              rgba(255, 130, 30, 0.02) 60%,
+              transparent 85%
             )
           `,
           opacity: open ? 1 : 0,
