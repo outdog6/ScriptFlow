@@ -52,16 +52,17 @@ export default function OpenBook({ open, children }: Props) {
       >
         {/* Book cover backing — visible behind pages */}
         <div
-          className="absolute -inset-2 rounded-lg"
+          className="absolute -inset-2 rounded-lg pointer-events-none"
           style={{
             background: "linear-gradient(135deg, #5c3d2e 0%, #4a3020 40%, #3d2518 100%)",
             borderRadius: "10px 12px 12px 10px",
+            zIndex: -2,
           }}
         />
 
-        {/* Page stack — creates thickness illusion */}
-        <div className="absolute inset-0 rounded-r-md" style={{ background: "#e6d9c0", transform: "translateX(3px) translateY(2px)" }} />
-        <div className="absolute inset-0 rounded-r-md" style={{ background: "#ece2cc", transform: "translateX(1.5px) translateY(1px)" }} />
+        {/* Page stack — creates thickness illusion behind content */}
+        <div className="absolute inset-0 rounded-r-md pointer-events-none" style={{ background: "#e6d9c0", transform: "translateX(3px) translateY(2px)", zIndex: -1 }} />
+        <div className="absolute inset-0 rounded-r-md pointer-events-none" style={{ background: "#ece2cc", transform: "translateX(1.5px) translateY(1px)", zIndex: -1 }} />
 
         {/* Spine shadow gradient — left page */}
         {open && (
@@ -96,8 +97,12 @@ export default function OpenBook({ open, children }: Props) {
           </>
         )}
 
-        {/* Page content */}
-        {open && children}
+        {/* Page content — positioned above backing layers */}
+        {open && (
+          <div className="relative flex flex-1" style={{ zIndex: 0 }}>
+            {children}
+          </div>
+        )}
       </div>
     </div>
   );
