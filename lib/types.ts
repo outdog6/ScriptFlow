@@ -81,6 +81,7 @@ export interface Draft {
   chapterCount: number;
   yaml: string;
   script: ScriptData;
+  chapters: NovelChapter[];
 }
 
 export interface AppState {

@@ -15,7 +15,7 @@ interface AppContextType extends AppState {
   setPreviewTab: (tab: "yaml" | "fountain") => void;
   setActiveChapter: (id: number) => void;
   setScript: (yaml: string, data: ScriptData) => void;
-  autoSaveDraft: (title: string, yaml: string, data: ScriptData) => void;
+  autoSaveDraft: (title: string, yaml: string, data: ScriptData, chapters: NovelChapter[]) => void;
   removeDraft: (id: string) => void;
   restoreDraft: (draft: Draft) => void;
   setConverting: (v: boolean) => void;
@@ -76,8 +76,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setScriptData(d);
   }, []);
 
-  const autoSaveDraft = useCallback((title: string, y: string, data: ScriptData) => {
-    const updated = saveDraft(title, data.meta.source_chapters, y, data);
+  const autoSaveDraft = useCallback((title: string, y: string, data: ScriptData, chs: NovelChapter[]) => {
+    const updated = saveDraft(title, data.meta.source_chapters, y, data, chs);
     setDrafts(updated);
   }, []);
 
@@ -87,6 +87,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const restoreDraft = useCallback((draft: Draft) => {
+    if (draft.chapters?.length) setChapters(draft.chapters);
     setYaml(draft.yaml);
     setScriptData(draft.script);
     setEditorTab("script");

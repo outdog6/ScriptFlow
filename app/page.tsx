@@ -57,7 +57,7 @@ export default function Home() {
       } else {
         setScript(data.yaml, data.script);
         setEditorTab("script");
-        autoSaveDraft(data.script.meta.title, data.yaml, data.script);
+        autoSaveDraft(data.script.meta.title, data.yaml, data.script, chapters);
         setToast({ message: "剧本已自动保存到草稿", type: "success" });
       }
     } catch (err) {
