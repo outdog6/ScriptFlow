@@ -128,6 +128,21 @@ export default function DeskLamp({ lampOn, converting, onPullChain }: Props) {
             fill="rgba(255,255,255,0.06)" />
         </g>
 
+        {/* Color palette switch — small dot on base */}
+        <circle
+          cx="80" cy="268" r="6"
+          fill={lampOn ? "var(--cine-bulb)" : "#4a3a2a"}
+          stroke="#3d2a18" strokeWidth="1.5"
+          style={{
+            cursor: "pointer",
+            filter: lampOn ? "drop-shadow(0 0 4px var(--cine-bulb))" : undefined,
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            cyclePalette();
+          }}
+        />
+
         {/* Base joint */}
         <circle cx="50" cy="262" r="7" fill="#6a5240" stroke="#3d2a18" strokeWidth="2" />
 
