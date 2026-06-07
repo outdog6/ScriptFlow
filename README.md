@@ -1,8 +1,6 @@
 # ScriptFlow —— 电影化写作桌面 × AI 剧本转化
 
-> 🎬 **[演示视频](https://www.bilibili.com/video/BV1vpEb6REKY/)**
-
-
+### 🎬 [▶ 演示视频（Bilibili）](https://www.bilibili.com/video/BV1vpEb6REKY/)
 
 导入小说，AI 自动拆章、识别人物、生成结构化剧本。界面不是表单——是一张**作家的桌子**。
 
