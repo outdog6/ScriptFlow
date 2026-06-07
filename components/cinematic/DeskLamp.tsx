@@ -10,11 +10,11 @@ interface Props {
 }
 
 const PALETTES = [
-  { bulb: "#ffb347", beam: "rgba(255,179,71,0.18)", name: "warm-gold" },
-  { bulb: "#5eeadb", beam: "rgba(94,234,219,0.16)",  name: "mint-teal" },
+  { bulb: "#ffb347", beam: "rgba(255,179,71,0.18)", name: "golden-hour" },
+  { bulb: "#ff8a65", beam: "rgba(255,138,101,0.16)", name: "teal-orange" },
   { bulb: "#90caf9", beam: "rgba(144,202,249,0.14)", name: "noir-blue" },
-  { bulb: "#f48fb1", beam: "rgba(244,143,177,0.16)", name: "soft-pink" },
-  { bulb: "#a5d6a7", beam: "rgba(165,214,167,0.16)", name: "leaf-green" },
+  { bulb: "#ce93d8", beam: "rgba(206,147,216,0.14)", name: "neon-purple" },
+  { bulb: "#ffcc02", beam: "rgba(255,204,2,0.18)", name: "amber-warm" },
 ];
 
 let paletteIndex = Math.floor(Math.random() * PALETTES.length);
