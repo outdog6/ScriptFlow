@@ -18,7 +18,7 @@ const SYSTEM_PROMPT = `你是一位专业编剧，擅长将小说文本转换为
 
 {
   "dramatis_personae": [
-    { "id": "角色英文ID", "name": "角色名", "role": "主角/配角/反派/路人", "archetype": "原型", "voice": "说话风格", "traits": ["特征1"] }
+    { "id": "角色中文名拼音", "name": "角色中文名", "role": "主角/配角/反派/路人", "archetype": "原型", "voice": "说话风格", "traits": ["特征1"] }
   ],
   "scenes": [
     {

@@ -11,16 +11,16 @@ interface Props {
 function ActBlock({ act, characterName }: Props) {
   return (
     <div className="mb-8">
-      <div className="mb-1">
+      <div className="mb-1 text-center">
         <span className="text-[11px] font-semibold text-[var(--apple-blue)] uppercase tracking-wider">
           第 {act.act} 幕
         </span>
       </div>
-      <h2 className="text-[28px] font-bold tracking-[-0.5px] text-[var(--apple-text)] mb-1 [text-wrap:balance]">
+      <h2 className="text-[28px] font-bold tracking-[-0.5px] text-[var(--apple-text)] mb-1 text-center [text-wrap:balance]">
         {act.title}
       </h2>
       {act.summary && (
-        <p className="text-[14px] text-[var(--apple-secondary)] mb-6">{act.summary}</p>
+        <p className="text-[14px] text-[var(--apple-secondary)] mb-6 text-center">{act.summary}</p>
       )}
 
       <div>

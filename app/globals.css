@@ -55,3 +55,112 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(127, 127, 127, 0.3); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(127, 127, 127, 0.5); }
+
+/* ============================================
+   Cinematic Desk Mode — Warm Cartoon Style
+   ============================================ */
+
+html[data-cinematic] {
+  --cine-bg: #2c1810;
+  --cine-desk: #3d2818;
+  --cine-book-cover: #5c3d2e;
+  --cine-book-spine: #4a3020;
+  --cine-book-page: #f5edd9;
+  --cine-page-text: #3d2b1a;
+  --cine-page-secondary: #8b7355;
+  --cine-bulb: #ffb347;
+  --cine-beam: rgba(255, 179, 71, 0.18);
+  --cine-accent: #e8943a;
+  --cine-ribbon-gold: #e6b84d;
+  --cine-ribbon-blue: #7baed4;
+  --cine-ribbon-green: #7db886;
+  --cine-ribbon-silver: #a0a0a0;
+}
+
+html[data-cinematic] body {
+  background: var(--cine-bg);
+  color: #c4b8a8;
+}
+
+html[data-cinematic].dark {
+  --apple-bg: var(--cine-bg);
+  --apple-white: #2a221a;
+  --apple-text: #c4b8a8;
+  --apple-secondary: #9b8b78;
+  --apple-blue: var(--cine-accent);
+  --apple-blue-hover: #f0a840;
+  --apple-border: rgba(255, 255, 255, 0.06);
+  --apple-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Book page — warm paper, dark text for readability */
+.cine-page {
+  background: var(--cine-book-page);
+  color: var(--cine-page-text);
+  --apple-text: var(--cine-page-text);
+  --apple-white: var(--cine-book-page);
+  --apple-bg: #ede4d2;
+  --apple-secondary: var(--cine-page-secondary);
+  --apple-blue: var(--cine-accent);
+  --apple-blue-hover: #d48220;
+  --apple-border: rgba(139, 115, 85, 0.2);
+}
+
+.cine-page ::-webkit-scrollbar-thumb {
+  background: rgba(139, 115, 85, 0.3);
+}
+
+/* Desk surface — warm wooden table, fills entire screen */
+.cine-desk {
+  background:
+    /* Wood grain horizontal lines */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(0,0,0,0.03) 3px,
+      rgba(0,0,0,0.03) 4px
+    ),
+    /* Wood grain vertical variation */
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 60px,
+      rgba(0,0,0,0.02) 60px,
+      rgba(0,0,0,0.02) 62px
+    ),
+    /* Base wood color */
+    linear-gradient(
+      180deg,
+      #5a3828 0%,
+      #4d2d1e 30%,
+      #543522 60%,
+      #4a2a18 100%
+    );
+}
+
+/* Vignette — lighter, just frames the desk edges */
+.cine-vignette {
+  background:
+    radial-gradient(
+      ellipse at 50% 50%,
+      transparent 40%,
+      rgba(0, 0, 0, 0.1) 65%,
+      rgba(0, 0, 0, 0.25) 100%
+    );
+}
+
+/* Page paper texture — subtle ruled lines */
+.cine-page-texture {
+  background-image:
+    linear-gradient(0deg, transparent 23px, rgba(180, 150, 110, 0.08) 24px),
+    linear-gradient(90deg, rgba(180, 150, 110, 0.03) 0%, transparent 5%, transparent 95%, rgba(180, 150, 110, 0.05) 100%);
+  background-size: 100% 24px, 100% 100%;
+}
+
+/* Book shadow on desk — directional from top-left lamp */
+.cine-book-shadow {
+  box-shadow:
+    8px 12px 40px rgba(0,0,0,0.5),
+    2px 4px 12px rgba(0,0,0,0.3);
+}
